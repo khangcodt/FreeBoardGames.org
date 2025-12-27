@@ -8,7 +8,8 @@ import Button from '@mui/material/Button';
 import ReplayIcon from '@mui/icons-material/Replay';
 import getMessagePage from 'infra/common/factories/MessagePage';
 import { LobbyService } from 'infra/common/services/LobbyService';
-import { Router, WithTranslation, withTranslation } from 'infra/i18n';
+import Router from 'next/router';
+import { WithTranslation, withTranslation } from 'infra/i18n';
 import { room } from 'infra/navigation';
 import { compose } from 'recompose';
 

@@ -9,7 +9,8 @@ import NicknameRequired from '../common/components/auth/NicknameRequired';
 import { Dispatch } from 'redux';
 import { GameModePickerCard } from './GameModePickerCard';
 import { compose } from 'recompose';
-import { Router, withTranslation, WithTranslation } from 'infra/i18n';
+import Router from 'next/router';
+import { withTranslation, WithTranslation } from 'infra/i18n';
 import { room } from 'infra/navigation';
 
 interface IGameModePickerInnerProps extends Pick<WithTranslation, 't' | 'i18n'> {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from 'infra/i18n';
+import Router from 'next/router';
 import { home } from 'infra/navigation';
 
 export default class Play extends React.Component {

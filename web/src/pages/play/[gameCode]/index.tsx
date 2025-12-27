@@ -28,6 +28,10 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     'GameModePicker',
     'GameModePickerCard',
     'LobbyCarousel',
+    'NewRoomModal',
+    'GameCardWithOverlay',
+    'OccupancySelect',
+    'NicknameRequired',
     'About', // Used by GameInstructionsVideo
     gameNamespace,
   ];
