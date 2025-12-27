@@ -102,7 +102,6 @@ export class GameModePickerCardInternal extends React.Component<IGameModePickerC
         <Link href={this.getLink()}>
           <Button
             data-testid={`playbutton-${this.props.gameDef.code}-${this.props.info.mode}`}
-            component={'a'}
             variant="contained"
             color="primary"
             style={{ marginLeft: 'auto' }}

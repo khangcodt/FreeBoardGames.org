@@ -12,7 +12,7 @@ import { SelfXSSWarning } from 'infra/common/components/base/SelfXSSWarning';
 import AddressHelper from 'infra/common/helpers/AddressHelper';
 import { wrapper } from 'infra/common/redux/store';
 import { GameProvider } from 'infra/game/GameProvider';
-import { appWithTranslation } from 'infra/i18n';
+import { appWithTranslation } from 'next-i18next';
 import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';

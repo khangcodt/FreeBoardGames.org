@@ -52,14 +52,25 @@ export function GameCardInternal({
 
         {!isFullyTranslated(game) && (
           <Tooltip title={t('missing_translation_warning')} placement="top">
-            <a
-              href="/docs/?path=/story/documentation-how-to-translation-game-translation--page"
+            <span
+              role="button"
+              tabIndex={0}
               aria-label="translation docs"
-              target="_blank"
-              onClick={(e) => e.stopPropagation()}
+              style={{ cursor: 'pointer' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open('/docs/?path=/story/documentation-how-to-translation-game-translation--page', '_blank');
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  window.open('/docs/?path=/story/documentation-how-to-translation-game-translation--page', '_blank');
+                }
+              }}
             >
               <Warning />
-            </a>
+            </span>
           </Tooltip>
         )}
       </Heading>

@@ -68,14 +68,14 @@ export class MessagePageInternal extends React.Component<IMessageInnerProps & IM
     if (!this.state.linkHidden) {
       const goHomeText = this.props.t('go_home');
       linkHome = (
-        <Link href={() => home()}>
-          <a style={{ textDecoration: 'none' }}>
+        <span style={{ textDecoration: 'none' }}>
+          <Link href={() => home()}>
             <Button variant="outlined" style={{ margin: '8px' }}>
               <HomeIcon style={{ marginRight: '8px' }} />
               {goHomeText}
             </Button>
-          </a>
-        </Link>
+          </Link>
+        </span>
       );
     }
     const content = (

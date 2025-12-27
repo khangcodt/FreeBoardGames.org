@@ -3,8 +3,7 @@ import Typography from '@mui/material/Typography';
 import { DesktopView, MobileView } from 'infra/common/device/DesktopMobileView';
 import { Link, useTranslation } from 'infra/i18n';
 import { LanguagePathResolver } from 'infra/navigation';
-import React, { Fragment, ReactNode } from 'react';
-import { defaultProps } from 'recompose';
+import React, { ReactNode } from 'react';
 import css from './GamesList.module.css';
 
 export function Container({ children }: { children: ReactNode }) {
@@ -42,13 +41,18 @@ export function Navigable({
   href: LanguagePathResolver;
   onClick?: () => void;
 }) {
-  const Wrapper = onClick ? Fragment : defaultProps({ href })(Link);
-  return (
-    <Wrapper>
-      <a {...(onClick && { onClick })} className={css.Card}>
+  if (onClick) {
+    return (
+      <a onClick={onClick} className={css.Card}>
         {children}
       </a>
-    </Wrapper>
+    );
+  }
+
+  return (
+    <Link href={href} className={css.Card} style={{ cursor: 'pointer' }}>
+      {children}
+    </Link>
   );
 }
 

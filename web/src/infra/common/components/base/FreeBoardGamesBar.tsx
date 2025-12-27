@@ -75,12 +75,12 @@ const FreeBoardGamesBar: React.FC<FBGBarProps> = (props) => {
         <AppBar position="sticky">
           <Toolbar>
             <Link href={() => home()}>
-              <a style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <span style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
                 <img style={{ marginRight: '8px' }} width="48" height="48" src={FbgLogo.src} alt="FbG" />
                 <Typography component="h1" variant="h6" style={{ color: 'white' }}>
                   FreeBoardGames.org
                 </Typography>
-              </a>
+              </span>
             </Link>
             {props.toolbarContent ?? renderLanguageSelect()}
           </Toolbar>

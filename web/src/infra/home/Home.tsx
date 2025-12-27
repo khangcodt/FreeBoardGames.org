@@ -25,7 +25,7 @@ export class HomeInternal extends React.Component<HomeInternalInnerProps & HomeI
         <LobbyCarousel />
         <p style={{ fontSize: '14px', textAlign: 'center' }}>
           <Link href={() => about()}>
-            <a>{t('about')}</a>
+            {t('about')}
           </Link>
         </p>
       </FreeBoardGamesBar>

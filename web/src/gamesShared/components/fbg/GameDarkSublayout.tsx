@@ -96,10 +96,10 @@ export class GameDarkSublayoutInternal extends React.Component<IGameDarkSublayou
           }}
         >
           <Link href={() => home()}>
-            <a style={{ textDecoration: 'none', display: 'flex' }}>
+            <span style={{ textDecoration: 'none', display: 'flex', cursor: 'pointer' }}>
               <img src={FbgLogo.src} alt="FreeBoardGames.org" style={{ paddingRight: '16px' }} />
               {fbgTopLeftText}
-            </a>
+            </span>
           </Link>
           <div style={{ flexGrow: 1 }}></div>
           {this.renderChatButton()}
