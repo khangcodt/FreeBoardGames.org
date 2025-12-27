@@ -81,7 +81,12 @@ app
 
     server.use('/docs', express.static(`${STATIC_DIR}/docs`));
 
-    server.use('/graphql', createProxyMiddleware({ target: INTERNAL_BACKEND_TARGET, changeOrigin: true }));
+    server.use('/graphql', createProxyMiddleware({ 
+      target: INTERNAL_BACKEND_TARGET, 
+      changeOrigin: true, 
+      ws: true,
+      pathRewrite: { '^/': '/graphql' }
+    }));
 
     server.get('*', csrfProtection, (req, res) => {
       res.cookie('XSRF-TOKEN', (req as any).csrfToken());
