@@ -1,5 +1,4 @@
-import { makeStyles } from '@mui/styles';
-import { Tooltip } from '@mui/material';
+import { Tooltip, Box } from '@mui/material';
 import { IGameDef } from 'gamesShared/definitions/game';
 import { makeTranslationStatusComparator } from 'gamesShared/helpers/translationStatus';
 import { WithNamespace, withNamespaceTranslation, WithTranslation, withTranslation } from 'infra/i18n';
@@ -14,22 +13,6 @@ interface IGameCardOutterProps {
   isLink?: boolean;
 }
 
-const useStyles = makeStyles({
-  Main: (props: { isLink: boolean }) => ({
-    position: 'relative',
-    height: '250px',
-    width: '100%',
-    backgroundPosition: 'left center',
-    backgroundSize: 'cover',
-    color: 'black',
-    overflow: 'hidden',
-    ...(props.isLink && {
-      boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
-      borderRadius: '8px',
-    }),
-  }),
-});
-
 export function GameCardInternal({
   i18n,
   t,
@@ -37,15 +20,27 @@ export function GameCardInternal({
   withGameNamespace,
   isLink,
 }: IGameCardInnerProps & IGameCardOutterProps) {
-  const styles = useStyles({ isLink });
   const translate = withGameNamespace(game.code);
   const gameName = translate('name', game.name);
   const isFullyTranslated = makeTranslationStatusComparator(i18n.language);
 
   return (
-    <div
-      className={styles.Main}
-      style={{ backgroundImage: `url(${game.imageURL})` }}
+    <Box
+      sx={{
+        position: 'relative',
+        display: 'block',
+        height: '250px',
+        width: '100%',
+        backgroundImage: `url(${game.imageURL})`,
+        backgroundPosition: 'center center',
+        backgroundSize: 'cover',
+        color: 'black',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        ...(isLink && {
+          boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
+        }),
+      }}
       data-testid={`gamecard-${game.code}`}
     >
       <Heading>
@@ -81,7 +76,7 @@ export function GameCardInternal({
       </Description>
 
       {isLink && <NavigateButton />}
-    </div>
+    </Box>
   );
 }
 

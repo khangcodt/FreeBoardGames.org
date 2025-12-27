@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import FbgLogo from './media/fbg_logo_white_48.png';
 import { Link } from 'infra/i18n';
 import { home } from 'infra/navigation';
-import { makeStyles } from '@mui/styles';
 import { nextI18Next } from 'infra/i18n/config';
 import LanguageIcon from '@mui/icons-material/Language';
 
@@ -21,34 +20,23 @@ const handleLanguageChange = (event) => {
   window.location.href = `/${event.target.value}`;
 };
 
-// Move makeStyles outside of the render function to prevent hydration issues
-const useWhiteStyles = makeStyles({
-  select: {
-    color: 'white!important' as 'white',
-    '&:before, &:after': {
-      display: 'none!important' as 'none',
-    },
-  },
-  icon: {
-    fill: 'white!important' as 'white',
-  },
-});
-
 function LanguageSelect() {
   const { i18n } = nextI18Next.useTranslation();
-  const classes = useWhiteStyles();
   return (
     <div style={{ marginLeft: 'auto' }}>
       <Select
         value={i18n.language}
-        className={classes.select}
-        inputProps={{
-          classes: {
-            icon: classes.icon,
-          },
-        }}
         onChange={handleLanguageChange}
         renderValue={() => <LanguageIcon />}
+        sx={{
+          color: 'white',
+          '&:before, &:after': {
+            display: 'none',
+          },
+          '& .MuiSelect-icon': {
+            fill: 'white',
+          },
+        }}
       >
         <MenuItem value="en">English</MenuItem>
         <MenuItem value="pt">Português</MenuItem>

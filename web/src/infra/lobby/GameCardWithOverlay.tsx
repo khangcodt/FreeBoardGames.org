@@ -1,4 +1,3 @@
-import { withStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import { IGameDef } from 'gamesShared/definitions/game';
 import { Link, useTranslation } from 'infra/i18n';
@@ -18,12 +17,6 @@ export interface RoomDisplay {
   capacity: number;
   gameCode: string;
 }
-
-const WhiteTextTypography = withStyles({
-  root: {
-    color: '#FFFFFF',
-  },
-})(Typography);
 
 export const GameCardWithOverlay = function GameCardWithOverlay({ game, rooms }: GameCardWithOverlayProps) {
   return (
@@ -56,22 +49,22 @@ function Rooms({ rooms }: { rooms: RoomDisplay[] }) {
       {rooms.map((room, index) => (
         <tr key={index}>
           <td>
-            <WhiteTextTypography gutterBottom={false} variant="h6">
+            <Typography gutterBottom={false} variant="h6" sx={{ color: '#FFFFFF' }}>
               {room.name}
-            </WhiteTextTypography>
+            </Typography>
           </td>
 
           <td>
-            <WhiteTextTypography gutterBottom={false} variant="h6">
+            <Typography gutterBottom={false} variant="h6" sx={{ color: '#FFFFFF' }}>
               {room.occupancy}/{room.capacity}
-            </WhiteTextTypography>
+            </Typography>
           </td>
 
           <td>
             <Link href={navigate(room.id)}>
-              <WhiteTextTypography gutterBottom={false} variant="h6" style={{ flex: '20', cursor: 'pointer' }}>
+              <Typography gutterBottom={false} variant="h6" sx={{ color: '#FFFFFF', flex: '20', cursor: 'pointer' }}>
                 <b>{t('join')}</b>
-              </WhiteTextTypography>
+              </Typography>
             </Link>
           </td>
         </tr>
