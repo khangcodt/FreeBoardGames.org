@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Pattern } from 'gamesShared/definitions/cards';
 import { Card } from 'gamesShared/components/cards/Card';
 import { ICard, playerEnum, stageEnum, phaseEnum } from './game';
-import { Dialog, DialogContent, DialogActions, Slider, DialogTitle, Button } from '@material-ui/core';
+import { Dialog, DialogContent, DialogActions, Slider, DialogTitle, Button } from '@mui/material';
 import css from './CardContainer.module.css';
 import { deckAssets, cardEnum } from './deals';
 

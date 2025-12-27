@@ -1,8 +1,8 @@
-import { Subscription } from '@apollo/react-components';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import ReplayIcon from '@material-ui/icons/Replay';
-import { gql } from 'apollo-boost';
+import { Subscription } from '@apollo/client';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import ReplayIcon from '@mui/icons-material/Replay';
+import { gql } from '@apollo/client';
 import { IGameDef } from 'gamesShared/definitions/game';
 import { GameMode } from 'gamesShared/definitions/mode';
 import { JoinRoom_joinRoom, JoinRoom_joinRoom_userMemberships } from 'gqlTypes/JoinRoom';

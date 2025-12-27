@@ -1,6 +1,6 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
+import Typography from '@mui/material/Typography';
+import Slider from '@mui/material/Slider';
 
 interface SliderProps {
   label: string;

@@ -7,12 +7,12 @@ import {
 } from 'gamesShared/definitions/customization';
 import { IGameModeInfo } from 'gamesShared/definitions/mode';
 import AlertLayer from '../common/components/alert/AlertLayer';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
-import SettingsIcon from '@material-ui/icons/Settings';
-import Card from '@material-ui/core/Card';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
+import Card from '@mui/material/Card';
 import css from './CustomizationBar.module.css';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { withSettingsService, SettingsService } from 'infra/settings/SettingsService';
 import { IGameDef } from 'gamesShared/definitions/game';
 import { compose } from 'recompose';

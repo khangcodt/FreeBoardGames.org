@@ -1,6 +1,6 @@
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import SendIcon from '@material-ui/icons/Send';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+import SendIcon from '@mui/icons-material/Send';
 import { WithTranslation, withTranslation } from 'infra/i18n';
 import React from 'react';
 import { compose } from 'recompose';

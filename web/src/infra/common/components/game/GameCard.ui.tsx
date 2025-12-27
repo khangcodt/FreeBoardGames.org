@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { ButtonBase, makeStyles } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import WarningIcon from '@material-ui/icons/Warning';
+import { ButtonBase, makeStyles } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import WarningIcon from '@mui/icons-material/Warning';
 import React, { HTMLAttributes } from 'react';
 
 const useHeadingStyles = makeStyles({

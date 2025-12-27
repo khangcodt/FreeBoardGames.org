@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
+import Card from '@mui/material/Card';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import { useTranslation } from 'infra/i18n';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';

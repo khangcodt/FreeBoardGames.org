@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@mui/material';
 import React, { ComponentProps } from 'react';
 import { nextI18Next } from '../config';
 

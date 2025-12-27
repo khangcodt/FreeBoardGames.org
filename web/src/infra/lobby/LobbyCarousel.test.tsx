@@ -3,7 +3,7 @@ import { LobbyService } from 'infra/common/services/LobbyService';
 import { render, waitFor, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import LobbyCarousel, { LOBBIES_SUBSCRIPTION } from './LobbyCarousel';
 import { GetLobby_lobby } from 'gqlTypes/GetLobby';
 

@@ -1,9 +1,9 @@
 import React, { HTMLAttributes, useState } from 'react';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import { InputAdornment, IconButton } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import ClearIcon from '@material-ui/icons/Clear';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import { makeStyles, Theme } from '@mui/material/styles';
+import { InputAdornment, IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 import { useTranslation } from 'infra/i18n';
 
 interface Props {

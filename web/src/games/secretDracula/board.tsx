@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Box, Button } from '@material-ui/core';
+import { Typography, Box, Button } from '@mui/material';
 import { IGameArgs } from 'gamesShared/definitions/game';
 import { GameLayout } from 'gamesShared/components/fbg/GameLayout';
 import { Ctx } from 'boardgame.io';

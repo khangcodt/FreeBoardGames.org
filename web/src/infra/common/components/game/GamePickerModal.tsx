@@ -1,7 +1,7 @@
 import React from 'react';
 import css from './GamePickerModal.module.css';
 import AlertLayer from 'infra/common/components/alert/AlertLayer';
-import { Card, Typography, Button } from '@material-ui/core';
+import { Card, Typography, Button } from '@mui/material';
 import { IGameDef } from 'gamesShared/definitions/game';
 import { GamesList } from './GamesList';
 

@@ -5,7 +5,7 @@ import { IGameArgs } from 'gamesShared/definitions/game';
 import { IG } from './game';
 import { Field } from './Field';
 import { Phase } from './game';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import css from './Board.module.css';
 import { isOnlineGame, isAIGame, isLocalGame } from '../../gamesShared/helpers/gameMode';
 import { isSpectator } from 'gamesShared/helpers/GameUtil';

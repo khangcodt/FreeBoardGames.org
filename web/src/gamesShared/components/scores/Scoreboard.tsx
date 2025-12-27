@@ -1,9 +1,9 @@
-import grey from '@material-ui/core/colors/grey';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import grey from '@mui/material/colors/grey';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import { IPlayerInRoom } from 'gamesShared/definitions/player';
 import { useTranslation } from 'infra/i18n';
 import React from 'react';

@@ -35,7 +35,6 @@
     "@nestjs/platform-express": "^10.4.15",
     "@nestjs/typeorm": "^10.0.2",
     "@types/shortid": "^0.0.32",
-    "@types/superagent": "^8.1.11",
     "apollo-server-core": "^3.13.0",
     "apollo-server-express": "^3.13.0",
     "bad-words": "^4.0.0",

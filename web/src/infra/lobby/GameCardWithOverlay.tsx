@@ -1,5 +1,5 @@
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import { IGameDef } from 'gamesShared/definitions/game';
 import { Link, useTranslation } from 'infra/i18n';
 import { room as navigate } from 'infra/navigation';

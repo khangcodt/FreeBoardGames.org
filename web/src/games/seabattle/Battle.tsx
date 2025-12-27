@@ -3,7 +3,7 @@ import React from 'react';
 import { Radar } from './Radar';
 import { ISeabattleState, IShip, ISalvo, ICell } from './game';
 import { playSeabattleSound } from './sound';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 import { withCurrentGameTranslation, WithCurrentGameTranslation } from 'infra/i18n';
 import { compose } from 'recompose';

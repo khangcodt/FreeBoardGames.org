@@ -6,7 +6,7 @@ import { GameLayout } from 'gamesShared/components/fbg/GameLayout';
 import { ISalvo, IShip } from './game';
 import { Battle } from './Battle';
 import { Radar } from './Radar';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { IOptionsItems } from 'gamesShared/components/fbg/GameDarkSublayout';
 import { isAIGame } from 'gamesShared/helpers/gameMode';
 import { withCurrentGameTranslation, WithCurrentGameTranslation } from 'infra/i18n';

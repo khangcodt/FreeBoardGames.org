@@ -1,4 +1,4 @@
-import { blue, green } from '@material-ui/core/colors';
+import { blue, green } from '@mui/material/colors';
 
 export const CARD_CONTENT = {
   elephant: require('./media/elephant.jpg'),

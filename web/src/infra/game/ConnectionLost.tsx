@@ -1,5 +1,5 @@
 import AlertLayer from 'infra/common/components/alert/AlertLayer';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { useTranslation } from 'infra/i18n';
 
 export function ConnectionLost() {

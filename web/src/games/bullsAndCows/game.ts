@@ -1,6 +1,6 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { Ctx } from 'boardgame.io';
-import { blue, green, common, yellow, brown, red, lightGreen } from '@material-ui/core/colors';
+import { blue, green, common, yellow, brown, red, lightGreen } from '@mui/material/colors';
 import { IG, generateSecret, checkSecret, isVictory, isGameOver } from './service';
 import { GameCustomizationState } from 'gamesShared/definitions/customization';
 import { FullCustomizationState, DEFAULT_FULL_CUSTOMIZATION } from './customization';

@@ -1,5 +1,5 @@
-import { Typography } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
+import { Typography } from '@mui/material';
+import Alert from '@mui/lab/Alert';
 import { makeTranslationStatusComparator } from 'gamesShared/helpers/translationStatus';
 import FreeBoardGamesBar from 'infra/common/components/base/FreeBoardGamesBar';
 import { GameCard } from 'infra/common/components/game/GameCard';

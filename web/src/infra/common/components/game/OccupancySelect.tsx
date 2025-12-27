@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import { IGameDef } from 'gamesShared/definitions/game';
-import PersonIcon from '@material-ui/icons/Person';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import PersonIcon from '@mui/icons-material/Person';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { withTranslation, WithTranslation } from 'infra/i18n';
 import { compose } from 'recompose';
 

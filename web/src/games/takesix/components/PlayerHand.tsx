@@ -2,7 +2,7 @@ import * as React from 'react';
 import css from './PlayerHand.module.css';
 import { IG } from '../game';
 import { CardComponent } from './CardComponent';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
 interface IPlayerHandProps {

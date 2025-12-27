@@ -1,7 +1,7 @@
 import React from 'react';
 import Message from './Message';
 import css from './ChatMessage.module.css';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 const zeroPad = (num, places) => String(num).padStart(places, '0');
 

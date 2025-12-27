@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@material-ui/core';
-import Paper, { PaperProps } from '@material-ui/core/Paper';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import Paper, { PaperProps } from '@mui/material/Paper';
 import Draggable from 'react-draggable';
 
 import css from '../Board.module.css';

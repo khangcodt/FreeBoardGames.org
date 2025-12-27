@@ -1,9 +1,9 @@
 import React from 'react';
 import { GameCustomization, GameCustomizationProps } from 'gamesShared/definitions/customization';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
-import { Tooltip } from '@material-ui/core';
+import { Tooltip } from '@mui/material';
 
 export interface QuickCustomizationState {
   isAllPlayerStateVisible: boolean;

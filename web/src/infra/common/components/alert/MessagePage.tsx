@@ -1,10 +1,10 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import HomeIcon from '@material-ui/icons/Home';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@mui/material/Button';
+import HomeIcon from '@mui/icons-material/Home';
+import CircularProgress from '@mui/material/CircularProgress';
 import FreeBoardGamesBar from '../base/FreeBoardGamesBar';
 import SvgError from './media/SvgError';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { Link, withTranslation, WithTranslation } from 'infra/i18n';
 import { home } from 'infra/navigation';
 import { compose } from 'recompose';

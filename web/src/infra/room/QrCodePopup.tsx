@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { useTranslation } from 'infra/i18n';
 import { QRCodeSVG } from 'qrcode.react';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { GameCustomization, GameCustomizationProps } from 'gamesShared/definitions/customization';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
 export interface FullCustomizationState {

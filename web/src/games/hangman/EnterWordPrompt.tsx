@@ -1,9 +1,9 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import CardContent from '@mui/material/CardContent';
+import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
 import { withCurrentGameTranslation, WithCurrentGameTranslation } from 'infra/i18n';
 import { compose } from 'recompose';
 import { MAX_WORD_LENGTH } from './constants';

@@ -5,8 +5,8 @@ import { Client } from 'boardgame.io/client';
 import { Client as ReactClient } from 'boardgame.io/react';
 import { CheckersGame } from './game';
 
-import blue from '@material-ui/core/colors/blue';
-import cyan from '@material-ui/core/colors/cyan';
+import blue from '@mui/material/colors/blue';
+import cyan from '@mui/material/colors/cyan';
 
 import { Board } from './board';
 import { GameMode } from 'gamesShared/definitions/mode';

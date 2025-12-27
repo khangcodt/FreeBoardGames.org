@@ -5,12 +5,12 @@ import { IG, cardEnum } from '../types';
 import { getCardTypeFromNumber } from '../cards';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import red from '@material-ui/core/colors/red';
-import yellow from '@material-ui/core/colors/yellow';
-import green from '@material-ui/core/colors/green';
-import blue from '@material-ui/core/colors/blue';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import red from '@mui/material/colors/red';
+import yellow from '@mui/material/colors/yellow';
+import green from '@mui/material/colors/green';
+import blue from '@mui/material/colors/blue';
 
 interface InnerWrapper {
   G: IG;

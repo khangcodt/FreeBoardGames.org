@@ -6,7 +6,7 @@ import { IGameArgs } from 'gamesShared/definitions/game';
 import { LobbyPlayer } from './LobbyPlayer';
 import { Ctx } from 'boardgame.io';
 import { isLocalGame } from '../../gamesShared/helpers/gameMode';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { getPlayerTeam, gameCanStart } from './util';
 import { useCurrentGameTranslation } from 'infra/i18n';
 

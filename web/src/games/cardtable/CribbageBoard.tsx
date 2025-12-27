@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import css from './CribbageBoard.module.css';
 import { IScore, IScoreKeeper } from './game';
-import Dialog from '@material-ui/core/Dialog';
-import Slider from '@material-ui/core/Slider';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import Popover from '@material-ui/core/Popover';
+import Dialog from '@mui/material/Dialog';
+import Slider from '@mui/material/Slider';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
 
 interface PegholeProps {
   idx: number;

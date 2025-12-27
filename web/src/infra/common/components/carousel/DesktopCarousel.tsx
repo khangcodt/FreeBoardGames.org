@@ -1,7 +1,7 @@
 import React from 'react';
-import Fab from '@material-ui/core/Fab';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import Fab from '@mui/material/Fab';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import css from './DesktopCarousel.module.css';
 
 interface DesktopCarouselProps {

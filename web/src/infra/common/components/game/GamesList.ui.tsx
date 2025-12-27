@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { DesktopView, MobileView } from 'infra/common/device/DesktopMobileView';
 import { Link, useTranslation } from 'infra/i18n';
 import { LanguagePathResolver } from 'infra/navigation';

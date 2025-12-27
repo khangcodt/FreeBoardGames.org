@@ -1,12 +1,12 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import CardContent from '@mui/material/CardContent';
+import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import AlertLayer from '../alert/AlertLayer';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import { compose } from 'recompose';
 import { WithTranslation, withTranslation } from 'infra/i18n';
 

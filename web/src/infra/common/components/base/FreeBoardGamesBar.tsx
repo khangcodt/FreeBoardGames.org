@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import FbgLogo from './media/fbg_logo_white_48.png';
 import { Link } from 'infra/i18n';
 import { home } from 'infra/navigation';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@mui/material';
 import { nextI18Next } from 'infra/i18n/config';
-import LanguageIcon from '@material-ui/icons/Language';
+import LanguageIcon from '@mui/icons-material/Language';
 
 type FBGBarProps = {
   FEATURE_FLAG_readyForDesktopView?: boolean;

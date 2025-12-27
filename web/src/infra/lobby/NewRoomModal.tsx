@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import AlertLayer from 'infra/common/components/alert/AlertLayer';
-import { Card, Typography, Button } from '@material-ui/core';
+import { Card, Typography, Button } from '@mui/material';
 import css from './NewRoomModal.module.css';
 import { OccupancySelect } from 'infra/common/components/game/OccupancySelect';
 import NicknameRequired from 'infra/common/components/auth/NicknameRequired';

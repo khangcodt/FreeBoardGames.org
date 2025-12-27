@@ -4,7 +4,7 @@ import { GameLayout } from 'gamesShared/components/fbg/GameLayout';
 import { withCurrentGameTranslation, WithCurrentGameTranslation } from 'infra/i18n';
 import { compose } from 'recompose';
 import { EmptyDisk, FilledDisk } from './Shapes';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { isOnlineGame, isAIGame } from '../../gamesShared/helpers/gameMode';
 import { numOfColumns, numOfRows, localPlayerNames } from './constants';
 import { isFirstPersonView } from 'gamesShared/helpers/GameUtil';

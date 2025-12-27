@@ -6,13 +6,13 @@ import { rotatePiece, flipPieceY, flipPieceX, getPlayer } from './game';
 import { IG, IPiece } from './types';
 import { pieces } from './pieces';
 
-import Done from '@material-ui/icons/Done';
-import RotateLeft from '@material-ui/icons/RotateLeft';
-import RotateRight from '@material-ui/icons/RotateRight';
-import Flip from '@material-ui/icons/Flip';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import IconButton from '@material-ui/core/IconButton';
+import Done from '@mui/icons-material/Done';
+import RotateLeft from '@mui/icons-material/RotateLeft';
+import RotateRight from '@mui/icons-material/RotateRight';
+import Flip from '@mui/icons-material/Flip';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import ChevronRight from '@mui/icons-material/ChevronRight';
+import IconButton from '@mui/material/IconButton';
 
 import css from './Controls.module.css';
 

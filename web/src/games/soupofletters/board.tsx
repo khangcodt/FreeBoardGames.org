@@ -7,7 +7,7 @@ import { IPlayerInRoom } from 'gamesShared/definitions/player';
 import { PlayerBadges } from 'gamesShared/components/badges/PlayerBadges';
 import { IScore, Scoreboard } from 'gamesShared/components/scores/Scoreboard';
 import { Ctx } from 'boardgame.io';
-import { Modal, Button, Typography, List, ListItem, ListItemText } from '@material-ui/core';
+import { Modal, Button, Typography, List, ListItem, ListItemText } from '@mui/material';
 import Timer from 'react-compound-timer';
 import { TIME_OUT, TIME_BUFF, playerColors } from './constants';
 import { IG, ISolvedWord } from './game';

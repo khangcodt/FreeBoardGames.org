@@ -2,7 +2,7 @@ import React from 'react';
 import { NicknamePrompt } from './NicknamePrompt';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 Enzyme.configure({ adapter: new Adapter() });
 

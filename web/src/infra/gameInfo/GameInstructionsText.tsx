@@ -1,7 +1,7 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
+import Card from '@mui/material/Card';
 import ReactMarkdown from 'react-markdown';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 interface IGameInstructionsProps {
   text: string;

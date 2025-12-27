@@ -1,6 +1,6 @@
 import React from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
 
 interface DropdownProps {
   options: string[];

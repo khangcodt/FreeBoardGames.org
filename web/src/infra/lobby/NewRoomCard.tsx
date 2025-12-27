@@ -1,6 +1,6 @@
 import css from './NewRoomCard.module.css';
-import AddIcon from '@material-ui/icons/Add';
-import { Typography } from '@material-ui/core';
+import AddIcon from '@mui/icons-material/Add';
+import { Typography } from '@mui/material';
 import { useTranslation } from 'infra/i18n/hooks/useTranslation';
 
 interface NewRoomCardProps {

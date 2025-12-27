@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { grey, red, blue } from '@material-ui/core/colors';
+import { grey, red, blue } from '@mui/material/colors';
 
 const diskRadius = 0.375;
 const strokeWidth = 0.05;

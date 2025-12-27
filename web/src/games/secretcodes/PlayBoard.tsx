@@ -4,7 +4,7 @@ import { IGameArgs } from 'gamesShared/definitions/game';
 import * as React from 'react';
 import css from './board.module.css';
 import { isLocalGame, isOnlineGame } from 'gamesShared/helpers/gameMode';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { IPlayerInRoom } from 'gamesShared/definitions/player';
 import { getPlayerTeam, isPlayerSpymaster } from './util';
 import { PlayerBadges } from 'gamesShared/components/badges/PlayerBadges';

@@ -7,7 +7,7 @@ import { Decks } from './components/Decks';
 import { PlayerHand } from './components/PlayerHand';
 import { Scoreboard } from 'gamesShared/components/scores/Scoreboard';
 import { PlayerBadges } from 'gamesShared/components/badges/PlayerBadges';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { withCurrentGameTranslation, WithCurrentGameTranslation } from 'infra/i18n';
 import { compose } from 'recompose';
 

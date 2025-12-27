@@ -1,7 +1,7 @@
 import React from 'react';
 import { Point } from './game';
 import css from './Field.module.css';
-import { red, blue } from '@material-ui/core/colors';
+import { red, blue } from '@mui/material/colors';
 
 const PIECE_RADIUS = 25;
 const BOARD_SIZE = 500;

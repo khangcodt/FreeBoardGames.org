@@ -1,9 +1,9 @@
 import React from 'react';
 import { GameCustomization, GameCustomizationProps } from 'gamesShared/definitions/customization';
 import { PREDEFINED_WORDS } from './constants';
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
 export interface FullCustomizationState {

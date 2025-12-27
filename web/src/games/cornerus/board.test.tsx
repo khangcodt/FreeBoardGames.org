@@ -7,7 +7,7 @@ import { CornerusGame } from './game';
 
 import { Board } from './board';
 import { GameMode } from 'gamesShared/definitions/mode';
-import blue from '@material-ui/core/colors/blue';
+import blue from '@mui/material/colors/blue';
 
 Enzyme.configure({ adapter: new Adapter() });
 

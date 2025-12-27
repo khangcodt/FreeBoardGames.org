@@ -4,7 +4,7 @@ import css from './BullsAndCows.module.css';
 import { IGameArgs } from 'gamesShared/definitions/game';
 import { Ctx } from 'boardgame.io';
 import { useCurrentGameTranslation } from 'infra/i18n';
-import { grey } from '@material-ui/core/colors';
+import { grey } from '@mui/material/colors';
 
 import { IG, IMoves } from '../service';
 import Attempt from './Attempt';

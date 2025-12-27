@@ -1,9 +1,9 @@
 import { JoinRoom_joinRoom } from 'gqlTypes/JoinRoom';
 import React from 'react';
-import ShuffleIcon from '@material-ui/icons/Shuffle';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Tooltip from '@material-ui/core/Tooltip';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Tooltip from '@mui/material/Tooltip';
 import { WithTranslation, withTranslation } from 'infra/i18n';
 import { compose } from 'recompose';
 

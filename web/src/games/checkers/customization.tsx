@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { GameCustomization, GameCustomizationProps } from 'gamesShared/definitions/customization';
-import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
 export enum PiecesPerPlayer {

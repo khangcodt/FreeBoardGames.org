@@ -1,4 +1,4 @@
-import { makeStyles, Tooltip } from '@material-ui/core';
+import { makeStyles, Tooltip } from '@mui/material';
 import { IGameDef } from 'gamesShared/definitions/game';
 import { makeTranslationStatusComparator } from 'gamesShared/helpers/translationStatus';
 import { WithNamespace, withNamespaceTranslation, WithTranslation, withTranslation } from 'infra/i18n';

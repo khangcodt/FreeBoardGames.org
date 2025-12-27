@@ -14,13 +14,13 @@ import { compose } from 'recompose';
 
 import css from './Board.module.css';
 
-import red from '@material-ui/core/colors/red';
-import yellow from '@material-ui/core/colors/yellow';
-import green from '@material-ui/core/colors/lightGreen';
-import blue from '@material-ui/core/colors/blue';
-import grey from '@material-ui/core/colors/grey';
+import red from '@mui/material/colors/red';
+import yellow from '@mui/material/colors/yellow';
+import green from '@mui/material/colors/lightGreen';
+import blue from '@mui/material/colors/blue';
+import grey from '@mui/material/colors/grey';
 
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { isAIGame, isOnlineGame } from '../../gamesShared/helpers/gameMode';
 
 export interface ICoords {

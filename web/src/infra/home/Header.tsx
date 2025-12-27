@@ -1,8 +1,8 @@
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import CodeIcon from '@material-ui/icons/Code';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import SubjectIcon from '@material-ui/icons/Subject';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import CodeIcon from '@mui/icons-material/Code';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import SubjectIcon from '@mui/icons-material/Subject';
 import { Trans, useTranslation } from 'infra/i18n';
 import React from 'react';
 

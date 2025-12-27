@@ -15,10 +15,10 @@ import {
   cartesianToAlgebraic,
 } from 'gamesShared/components/boards/Checkerboard';
 import { Token } from 'deprecated-bgio-ui';
-import Typography from '@material-ui/core/Typography';
-import grey from '@material-ui/core/colors/grey';
-import blue from '@material-ui/core/colors/blue';
-import cyan from '@material-ui/core/colors/cyan';
+import Typography from '@mui/material/Typography';
+import grey from '@mui/material/colors/grey';
+import blue from '@mui/material/colors/blue';
+import cyan from '@mui/material/colors/cyan';
 import { isOnlineGame, isAIGame } from '../../gamesShared/helpers/gameMode';
 import { isFirstPersonView } from 'gamesShared/helpers/GameUtil';
 import { useCurrentGameTranslation } from 'infra/i18n';

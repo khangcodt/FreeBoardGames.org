@@ -5,7 +5,7 @@ import { Scoreboard } from 'gamesShared/components/scores/Scoreboard';
 import { withCurrentGameTranslation, WithCurrentGameTranslation } from 'infra/i18n';
 import { compose } from 'recompose';
 import { isOnlineGame, isLocalGame } from '../../gamesShared/helpers/gameMode';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { isSpectator } from 'gamesShared/helpers/GameUtil';
 import { IBoardProps, IBoardState } from './definations';
 import CardGrid from './grid';

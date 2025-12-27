@@ -6,7 +6,7 @@ import { compose } from 'recompose';
 import { isLocalGame } from '../../gamesShared/helpers/gameMode';
 import { IPlayerInRoom } from 'gamesShared/definitions/player';
 import { isFirstPersonView } from 'gamesShared/helpers/GameUtil';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { IG, Phase } from './game';
 import { Field } from './Field';
 import { Ctx } from 'boardgame.io';

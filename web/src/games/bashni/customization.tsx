@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GameCustomization, GameCustomizationProps } from 'gamesShared/definitions/customization';
-import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
+import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
 export interface FullCustomizationState {

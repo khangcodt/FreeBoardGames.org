@@ -1,8 +1,8 @@
 import { JoinRoom_joinRoom } from 'gqlTypes/JoinRoom';
 import { StartMatchButton } from './StartMatchButton';
 import { mount } from 'enzyme';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 
 describe('Room Start Match Button', () => {
   it('should show disabled button if not enough people joined', async () => {

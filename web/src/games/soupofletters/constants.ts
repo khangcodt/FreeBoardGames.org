@@ -1,4 +1,4 @@
-import { red, blue, green, orange, yellow } from '@material-ui/core/colors';
+import { red, blue, green, orange, yellow } from '@mui/material/colors';
 
 export const MAX_WORDS_IN_GAME = 20;
 export const MAX_WORD_LEN = 12;

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Carousel } from 'infra/common/components/carousel/Carousel';
 import { GameCardWithOverlay } from './GameCardWithOverlay';
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 import { GetLobby, GetLobby_lobby } from 'gqlTypes/GetLobby';
-import { Typography, CircularProgress } from '@material-ui/core';
+import { Typography, CircularProgress } from '@mui/material';
 import { getGroupedRoomsDisplay, orderCurrentGameFirst } from './LobbyUtil';
 import { NewRoomModal } from './NewRoomModal';
 import { LobbyService } from 'infra/common/services/LobbyService';
-import { Subscription } from '@apollo/react-components';
+import { Subscription } from '@apollo/client';
 import css from './LobbyCarousel.module.css';
 import { withTranslation, WithTranslation } from 'infra/i18n';
 import { getGameDefinition } from 'infra/game';

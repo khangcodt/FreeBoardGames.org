@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { blue } from '@material-ui/core/colors';
+import { blue } from '@mui/material/colors';
 
 import textCSS from './textStyles.module.css';
 import * as CNST from '../constants';

@@ -1,27 +1,15 @@
-// https://github.com/mui-org/material-ui/blob/4657c5ed5a47b3f7bd1b7267fb85a4863c9180c6/docs/pages/_document.js
+// Updated for MUI v6 with Emotion
+// https://mui.com/material-ui/integrations/nextjs/
 
-import React from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/core/styles';
-
-let prefixer;
-let cleanCSS;
-
-if (process.env.NODE_ENV === 'production') {
-  /* eslint-disable global-require */
-  const postcss = require('postcss');
-  const autoprefixer = require('autoprefixer');
-  const CleanCSS = require('clean-css');
-  /* eslint-enable global-require */
-
-  prefixer = postcss([autoprefixer]);
-  cleanCSS = new CleanCSS();
-}
+import * as React from 'react';
+import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentInitialProps } from 'next/document';
+import createEmotionServer from '@emotion/server/create-instance';
+import createEmotionCache from '../infra/common/components/theme/createEmotionCache';
 
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <link rel="shortcut icon" type="image/x-icon" href="/static/icons/favicon.ico" />
           <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png" />
@@ -30,6 +18,8 @@ export default class MyDocument extends Document {
           <link rel="manifest" href="/manifest.json" />
           <link rel="mask-icon" href="/static/icons/safari-pinned-tab.svg" color="#5bbad5" />
           <link rel="shortcut icon" href="/static/icons/favicon.ico" />
+          {/* Inject MUI styles first to match with the prepend: true option. */}
+          {(this.props as any).emotionStyleTags}
         </Head>
         <body style={{ margin: 0 }}>
           <Main />
@@ -40,53 +30,37 @@ export default class MyDocument extends Document {
   }
 }
 
-MyDocument.getInitialProps = async (ctx) => {
-  // Resolution order
-  //
-  // On the server:
-  // 1. page.getInitialProps
-  // 2. document.getInitialProps
-  // 3. page.render
-  // 4. document.render
-  //
-  // On the server with error:
-  // 2. document.getInitialProps
-  // 3. page.render
-  // 4. document.render
-  //
-  // On the client
-  // 1. page.getInitialProps
-  // 3. page.render
-
-  // Render app and page and get the context of the page with collected side effects.
-  const sheets = new ServerStyleSheets();
+MyDocument.getInitialProps = async (ctx: DocumentContext): Promise<DocumentInitialProps & { emotionStyleTags: JSX.Element[] }> => {
   const originalRenderPage = ctx.renderPage;
+
+  // Create emotion cache for SSR
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks } = createEmotionServer(cache);
 
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+      enhanceApp: (App: any) =>
+        function EnhanceApp(props) {
+          return <App emotionCache={cache} {...props} />;
+        },
     });
 
   const initialProps = await Document.getInitialProps(ctx);
-
-  let css = sheets.toString();
-  // It might be undefined, e.g. after an error.
-  if (css && process.env.NODE_ENV === 'production') {
-    const result1 = await prefixer.process(css, { from: undefined });
-    css = result1.css;
-    css = cleanCSS.minify(css).styles;
-  }
+  
+  // This is important. It prevents Emotion from rendering invalid HTML.
+  // See https://github.com/mui/material-ui/issues/26561#issuecomment-855286153
+  const emotionStyles = extractCriticalToChunks(initialProps.html);
+  const emotionStyleTags = emotionStyles.styles.map((style) => (
+    <style
+      data-emotion={`${style.key} ${style.ids.join(' ')}`}
+      key={style.key}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: style.css }}
+    />
+  ));
 
   return {
     ...initialProps,
-    styles: [
-      ...React.Children.toArray(initialProps.styles),
-      <style
-        id="jss-server-side"
-        key="jss-server-side"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: css }}
-      />,
-    ],
+    emotionStyleTags,
   };
 };

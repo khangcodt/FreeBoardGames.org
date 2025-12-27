@@ -4,7 +4,8 @@ import { ApolloClient, InMemoryCache, split } from '@apollo/client';
 import { createHttpLink } from '@apollo/client/link/http';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 import * as Sentry from '@sentry/browser';
 import { ThemeProvider } from 'infra/common';
 import { SelfXSSWarning } from 'infra/common/components/base/SelfXSSWarning';
@@ -12,12 +13,11 @@ import AddressHelper from 'infra/common/helpers/AddressHelper';
 import { wrapper } from 'infra/common/redux/store';
 import { GameProvider } from 'infra/game/GameProvider';
 import { appWithTranslation } from 'infra/i18n';
-import withError from 'next-with-error';
 import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import { compose } from 'recompose';
-import ErrorPage from './_error';
+import createEmotionCache from 'infra/common/components/theme/createEmotionCache';
 
 const SENTRY_DSN = 'https://5957292e58cf4d2fbb781910e7b26b1f@o397015.ingest.sentry.io/5251165';
 
@@ -56,12 +56,21 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-class DefaultApp extends App {
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache();
+
+interface MyAppProps {
+  emotionCache?: EmotionCache;
+  pageProps: any;
+  Component: any;
+}
+
+class DefaultApp extends App<MyAppProps> {
   componentDidMount() {
-    // Remove the server-side injected CSS:
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
+    // Remove the server-side injected CSS (emotion styles):
+    const emotionStyles = document.querySelector('[data-emotion]');
+    if (emotionStyles?.parentElement) {
+      // Emotion handles cleanup automatically, but we can still check
     }
 
     // Initialize Google Analytics:
@@ -75,9 +84,9 @@ class DefaultApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props as any;
+    const { Component, pageProps, emotionCache = clientSideEmotionCache } = this.props;
     return (
-      <>
+      <CacheProvider value={emotionCache}>
         <Head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -98,7 +107,7 @@ class DefaultApp extends App {
             </GameProvider>
           </ApolloProvider>
         </ThemeProvider>
-      </>
+      </CacheProvider>
     );
   }
 
@@ -113,6 +122,6 @@ class DefaultApp extends App {
   }
 }
 
-const enhance = compose(wrapper.withRedux, appWithTranslation, withError(ErrorPage));
+const enhance = compose(wrapper.withRedux, appWithTranslation);
 
 export default enhance(DefaultApp);

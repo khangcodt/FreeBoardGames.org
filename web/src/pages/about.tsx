@@ -1,19 +1,19 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 import FreeBoardGamesBar from 'infra/common/components/base/FreeBoardGamesBar';
 import SEO from 'infra/common/helpers/SEO';
 import Breadcrumbs from 'infra/common/helpers/Breadcrumbs';
 import { useRouter } from 'next/router';
 import { GAMES_LIST } from 'games';
 import { IGameStatus } from 'gamesShared/definitions/game';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
 import { useTranslation } from 'infra/i18n';
 
 const About = () => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GameLayout } from 'gamesShared/components/fbg/GameLayout';
 import { isOnlineGame } from 'gamesShared/helpers/gameMode';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { isFirstPersonView } from 'gamesShared/helpers/GameUtil';
 
 import { IBoardOutterProps, IBoardState, INumberState, IBoardInnerProps } from './definitions';

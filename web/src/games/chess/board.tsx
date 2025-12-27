@@ -29,7 +29,7 @@ import Queen from './pieces/queen';
 import Rook from './pieces/rook';
 import { playSound } from './sound';
 import { IOptionsItems } from 'gamesShared/components/fbg/GameDarkSublayout';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { isFirstPersonView } from 'gamesShared/helpers/GameUtil';
 import { WithCurrentGameTranslation, withCurrentGameTranslation } from 'infra/i18n';
 import { compose } from 'recompose';

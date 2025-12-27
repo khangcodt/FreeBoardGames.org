@@ -1,13 +1,13 @@
 import React from 'react';
-import PersonIcon from '@material-ui/icons/Person';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ShuffleIcon from '@material-ui/icons/Shuffle';
-import EditIcon from '@material-ui/icons/Edit';
+import PersonIcon from '@mui/icons-material/Person';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+import EditIcon from '@mui/icons-material/Edit';
 import { JoinRoom_joinRoom } from 'gqlTypes/JoinRoom';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { isCreator } from './RoomMetadataHelper';
 
 import {
@@ -21,7 +21,7 @@ import {
   ListSubheader,
   ListItemSecondaryAction,
   Tooltip,
-} from '@material-ui/core';
+} from '@mui/material';
 import { getGameDefinition } from 'infra/game';
 import { withTranslation, WithTranslation } from 'infra/i18n';
 import { compose } from 'recompose';

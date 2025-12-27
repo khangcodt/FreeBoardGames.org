@@ -7,7 +7,7 @@ import { Ctx } from 'boardgame.io';
 import { IG } from './types';
 import { BottomInfo } from './components/BottomInfo';
 import { PlayerInfo } from './components/PlayerInfo';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
 interface IBoardProps {

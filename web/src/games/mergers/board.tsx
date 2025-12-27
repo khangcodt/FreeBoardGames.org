@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Typography from '@material-ui/core/Typography/Typography';
+import Typography from '@mui/material/Typography/Typography';
 import { IGameArgs } from 'gamesShared/definitions/game';
 import { GameLayout } from 'gamesShared/components/fbg/GameLayout';
 import { Ctx } from 'boardgame.io';
@@ -12,7 +12,7 @@ import { MergerDetails } from './components/MergerDetails';
 import { MergersDialog } from './components/MergersDialog';
 import { Hotels } from './hotels';
 import { MergersGameStatus } from './components/MergersGameStatus';
-import { Button, createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core';
+import { Button, createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material';
 import { IPlayerInRoom } from 'gamesShared/definitions/player';
 import { StockGuide } from './components/StockGuide';
 
@@ -254,7 +254,7 @@ export class Board extends React.Component<BoardProps, BoardState> {
     const hotels = new Hotels(this.props.G.hotels);
     return (
       <GameLayout maxWidth="1000px" gameArgs={this.props.gameArgs}>
-        <ThemeProvider theme={responsiveFontSizes(createMuiTheme({ palette: { type: 'dark' } }))}>
+        <ThemeProvider theme={responsiveFontSizes(createTheme({ palette: { type: 'dark' } }))}>
           <div className={`${css.Mergers} ${css.BoardContainer}`}>
             <HotelGrid
               hotels={hotels}

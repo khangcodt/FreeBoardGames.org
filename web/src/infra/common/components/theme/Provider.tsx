@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { ThemeProvider as UIThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider as UIThemeProvider } from '@mui/material/styles';
 import theme from 'infra/common/components/base/theme';
 import React from 'react';
 

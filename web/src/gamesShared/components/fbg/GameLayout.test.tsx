@@ -4,7 +4,7 @@ import { GameLayout } from './GameLayout';
 import { IGameArgs } from 'gamesShared/definitions/game';
 import { GameMode } from 'gamesShared/definitions/mode';
 import { LobbyService } from 'infra/common/services/LobbyService';
-import ReplayIcon from '@material-ui/icons/Replay';
+import ReplayIcon from '@mui/icons-material/Replay';
 import { Router } from 'infra/i18n';
 
 beforeEach(() => {

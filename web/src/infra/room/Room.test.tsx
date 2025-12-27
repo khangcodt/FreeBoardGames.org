@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import { JoinRoom } from 'gqlTypes/JoinRoom';
 import { LobbyService } from 'infra/common/services/LobbyService';
 import { mock } from 'jest-mock-extended';

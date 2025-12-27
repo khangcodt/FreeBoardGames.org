@@ -1,28 +1,28 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import ContentCopyIcon from '@material-ui/icons/FileCopy';
-import IconButton from '@material-ui/core/IconButton';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import ContentCopyIcon from '@mui/icons-material/FileCopy';
+import IconButton from '@mui/material/IconButton';
 import FacebookIcon from './icons/FacebookIcon';
 import WhatsAppIcon from './icons/WhatsAppIcon';
 import QrCodeIcon from './icons/QrCodeIcon';
 import ShareIcon from './icons/ShareIcon';
 import copy from 'copy-to-clipboard';
-import TextField from '@material-ui/core/TextField';
-import Tooltip from '@material-ui/core/Tooltip';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
 import AlertLayer from '../common/components/alert/AlertLayer';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { QrCodePopup } from './QrCodePopup';
-import { lightGreen } from '@material-ui/core/colors';
+import { lightGreen } from '@mui/material/colors';
 import { shortIdToAnimal } from '../lobby/LobbyUtil';
 import { withTranslation, WithTranslation } from 'infra/i18n';
 import { compose } from 'recompose';
 import { room } from 'infra/navigation';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     secondary: lightGreen,
   },
@@ -75,7 +75,7 @@ export class GameSharingInternal extends React.Component<
     }
 
     return (
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <div>
           {this.state.showingQrCode ? (
             <AlertLayer>
@@ -124,7 +124,7 @@ export class GameSharingInternal extends React.Component<
             </CardActions>
           </Card>
         </div>
-      </MuiThemeProvider>
+      </ThemeProvider>
     );
   }
 

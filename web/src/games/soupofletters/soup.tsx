@@ -1,5 +1,5 @@
 import React from 'react';
-import { grey } from '@material-ui/core/colors';
+import { grey } from '@mui/material/colors';
 import soupCSS from './soup.module.css';
 import { orientations } from './puzzle';
 import { ISingleLetter, ISolvedWord } from './game';
