@@ -3,6 +3,7 @@
 import childProcess from 'child_process';
 import TSConfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { i18n, i18nRewrites, i18nRedirects } from './config/i18n';
+import path from 'path';
 
 const CHANNEL = process.env.CHANNEL || 'development';
 const BABEL_ENV_IS_PROD = (process.env.BABEL_ENV || 'production') === 'production';
