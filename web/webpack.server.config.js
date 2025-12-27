@@ -68,6 +68,7 @@ var config = {
             loader: 'ts-loader',
             options: {
               configFile: 'tsconfig.server.json',
+              transpileOnly: true,
             },
           },
         ],

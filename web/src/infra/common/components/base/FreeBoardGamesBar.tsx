@@ -7,13 +7,14 @@ import Typography from '@mui/material/Typography';
 import FbgLogo from './media/fbg_logo_white_48.png';
 import { Link } from 'infra/i18n';
 import { home } from 'infra/navigation';
-import { makeStyles } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { nextI18Next } from 'infra/i18n/config';
 import LanguageIcon from '@mui/icons-material/Language';
 
 type FBGBarProps = {
   FEATURE_FLAG_readyForDesktopView?: boolean;
   toolbarContent?: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const handleLanguageChange = (event) => {
@@ -75,7 +76,7 @@ const FreeBoardGamesBar: React.FC<FBGBarProps> = (props) => {
           <Toolbar>
             <Link href={() => home()}>
               <a style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                <img style={{ marginRight: '8px' }} width="48" height="48" src={FbgLogo} alt="FbG" />
+                <img style={{ marginRight: '8px' }} width="48" height="48" src={FbgLogo.src} alt="FbG" />
                 <Typography component="h1" variant="h6" style={{ color: 'white' }}>
                   FreeBoardGames.org
                 </Typography>

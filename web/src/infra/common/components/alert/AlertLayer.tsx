@@ -3,6 +3,7 @@ import css from './AlertLayer.module.css';
 
 interface AlertLayerProps {
   onClickaway?: () => void;
+  children?: React.ReactNode;
 }
 
 class AlertLayer extends React.Component<AlertLayerProps, {}> {

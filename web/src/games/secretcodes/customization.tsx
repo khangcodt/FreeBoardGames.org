@@ -2,7 +2,7 @@ import React from 'react';
 import { GameCustomization, GameCustomizationProps } from 'gamesShared/definitions/customization';
 import { PREDEFINED_WORDS } from './constants';
 import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
@@ -42,8 +42,8 @@ const getPredefinedWordsBucket = (state: FullCustomizationState) => {
 };
 
 const handlePredefinedWordChange =
-  (onChange: (state?: FullCustomizationState) => void) => (event: React.ChangeEvent<{ value: number }>) => {
-    const index = event.target.value;
+  (onChange: (state?: FullCustomizationState) => void) => (event: SelectChangeEvent<number>) => {
+    const index = event.target.value as number;
     if (index === null) {
       return;
     }

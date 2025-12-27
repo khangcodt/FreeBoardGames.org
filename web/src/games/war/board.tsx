@@ -64,16 +64,16 @@ export class Board extends React.Component<IBoardProps, {}> {
       <tr id="p1Row">
         <td style={cellStyle} key="p1DrawPile" onClick={() => this.drawCard(0)}>
           {' '}
-          <img style={cardStyle} src={cards.cardBack_blue1}></img>
+          <img style={cardStyle} src={cards.cardBack_blue1.src}></img>
         </td>
         <td style={cellStyle} key="p1">
-          <img style={cardStyle} src={cards[this.getCard(0)]}></img>
+          <img style={cardStyle} src={cards[this.getCard(0)]?.src}></img>
         </td>
         <td style={cellStyle} key="p1war1">
-          <img style={cardStyle} src={cards[this.getWarCard(0, 1)]}></img>
+          <img style={cardStyle} src={cards[this.getWarCard(0, 1)]?.src}></img>
         </td>
         <td style={cellStyle} key="p1war2">
-          <img style={cardStyle} src={cards[this.getWarCard(0, 2)]}></img>
+          <img style={cardStyle} src={cards[this.getWarCard(0, 2)]?.src}></img>
         </td>
       </tr>,
     );
@@ -81,16 +81,16 @@ export class Board extends React.Component<IBoardProps, {}> {
       <tr id="p2Row">
         <td style={cellStyle} key="p2DrawPile" onClick={() => this.drawCard(1)}>
           {' '}
-          <img style={cardStyle} src={cards.cardBack_blue1}></img>
+          <img style={cardStyle} src={cards.cardBack_blue1.src}></img>
         </td>
         <td style={cellStyle} key="p2">
-          <img style={cardStyle} src={cards[this.getCard(1)]}></img>
+          <img style={cardStyle} src={cards[this.getCard(1)]?.src}></img>
         </td>
         <td style={cellStyle} key="p2war1">
-          <img style={cardStyle} src={cards[this.getWarCard(1, 1)]}></img>
+          <img style={cardStyle} src={cards[this.getWarCard(1, 1)]?.src}></img>
         </td>
         <td style={cellStyle} key="p2war2">
-          <img style={cardStyle} src={cards[this.getWarCard(1, 2)]}></img>
+          <img style={cardStyle} src={cards[this.getWarCard(1, 2)]?.src}></img>
         </td>
       </tr>,
     );

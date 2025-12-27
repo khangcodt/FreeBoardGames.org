@@ -1,4 +1,4 @@
-import { withStyles } from '@mui/material/styles';
+import { withStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import { IGameDef } from 'gamesShared/definitions/game';
 import { Link, useTranslation } from 'infra/i18n';

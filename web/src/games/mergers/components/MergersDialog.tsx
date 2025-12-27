@@ -40,7 +40,7 @@ export class MergersDialog extends React.Component<MergersDialogProps> {
         aria-labelledby={this.createId('title')}
         open
       >
-        <DialogTitle disableTypography style={{ cursor: 'move' }} id={this.createId('title')}>
+        <DialogTitle style={{ cursor: 'move' }} id={this.createId('title')}>
           <Typography variant="h4">{this.props.title}</Typography>
         </DialogTitle>
         <DialogContent>{this.props.children}</DialogContent>

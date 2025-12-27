@@ -5,6 +5,7 @@ import css from './ButtonComponent.module.css';
 interface IButtonProps {
   disabled?: boolean;
   click?: () => void;
+  children?: React.ReactNode;
 }
 
 export class ButtonComponent extends React.Component<IButtonProps> {

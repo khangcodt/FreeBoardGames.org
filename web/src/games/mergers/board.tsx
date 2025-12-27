@@ -254,7 +254,7 @@ export class Board extends React.Component<BoardProps, BoardState> {
     const hotels = new Hotels(this.props.G.hotels);
     return (
       <GameLayout maxWidth="1000px" gameArgs={this.props.gameArgs}>
-        <ThemeProvider theme={responsiveFontSizes(createTheme({ palette: { type: 'dark' } }))}>
+        <ThemeProvider theme={responsiveFontSizes(createTheme({ palette: { mode: 'dark' } }))}>
           <div className={`${css.Mergers} ${css.BoardContainer}`}>
             <HotelGrid
               hotels={hotels}

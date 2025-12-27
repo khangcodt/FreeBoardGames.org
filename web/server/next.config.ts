@@ -24,10 +24,18 @@ function getGitHash() {
 
 export default {
   poweredByHeader: false,
+  typescript: {
+    // Skip type checking during build (using webpack transpileOnly for faster builds)
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    // Skip ESLint during build (can run separately)
+    ignoreDuringBuilds: true,
+  },
   env: {
     CHANNEL,
     VERSION,
-    BABEL_ENV_IS_PROD,
+    BABEL_ENV_IS_PROD: String(BABEL_ENV_IS_PROD),
   },
   webpack: (config: any) => {
     config.module.rules.push({

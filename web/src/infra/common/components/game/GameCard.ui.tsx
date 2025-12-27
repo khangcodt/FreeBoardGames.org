@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { ButtonBase, makeStyles } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { ButtonBase } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';

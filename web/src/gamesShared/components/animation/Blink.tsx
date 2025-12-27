@@ -8,6 +8,7 @@ interface IBlinkState {
 interface IBlinkProps {
   totalDurationMillis?: number;
   blinkDurationMillis?: number;
+  children?: React.ReactNode;
 }
 
 export class Blink extends React.Component<IBlinkProps, IBlinkState> {

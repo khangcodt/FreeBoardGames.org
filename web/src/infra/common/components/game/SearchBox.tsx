@@ -1,7 +1,7 @@
 import React, { HTMLAttributes, useState } from 'react';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { makeStyles, Theme } from '@mui/material/styles';
-import { InputAdornment, IconButton } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { InputAdornment, IconButton, Theme } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useTranslation } from 'infra/i18n';

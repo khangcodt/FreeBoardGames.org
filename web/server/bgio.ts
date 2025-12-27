@@ -27,8 +27,14 @@ function getTransport() {
   if (!host || !port || !password) {
     return;
   }
-  const pub = redis.createClient(port, host, { auth_pass: password });
-  const sub = redis.createClient(port, host, { auth_pass: password });
+  const pub = redis.createClient({
+    socket: { host, port: parseInt(port, 10) },
+    password,
+  });
+  const sub = redis.createClient({
+    socket: { host, port: parseInt(port, 10) },
+    password,
+  });
   return new SocketIO({ pubSub: new RedisPubSub(pub, sub) });
 }
 

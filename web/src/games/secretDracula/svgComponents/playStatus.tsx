@@ -18,7 +18,7 @@ interface ITextSquare {
   fontSize: number[];
   vertical?: boolean;
   noRect?: boolean;
-  textAnchor?: string;
+  textAnchor?: 'start' | 'middle' | 'end' | 'inherit';
   rectBorder?: string;
   onClick: () => void;
 }
@@ -199,7 +199,7 @@ export default function PlayStatus(props: IPlayStatus) {
       text={[translate('veto_check')]}
       fontSize={[0.4]}
       noRect={true}
-      textAnchor="left"
+      textAnchor="start"
       onClick={() => {
         props.onItemClick('vetoEnabled');
       }}
@@ -216,7 +216,7 @@ export default function PlayStatus(props: IPlayStatus) {
       text={[translate('vampire_strong')]}
       fontSize={[0.4]}
       noRect={true}
-      textAnchor="left"
+      textAnchor="start"
       onClick={() => {
         props.onItemClick('draculaStrong');
       }}

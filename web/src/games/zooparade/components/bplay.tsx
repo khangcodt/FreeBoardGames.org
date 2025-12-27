@@ -27,11 +27,11 @@ export class BPlay extends React.Component<InnerWrapper, {}> {
       return (
         <div>
           <button onClick={this.props.onPlay} style={buttonStyle}>
-            <img src={play} style={imageStyle}></img>
+            <img src={play.src} style={imageStyle}></img>
           </button>
 
           <button onClick={this.props.onTrash} style={buttonStyle}>
-            <img src={trash} style={imageStyle}></img>
+            <img src={trash.src} style={imageStyle}></img>
           </button>
         </div>
       );

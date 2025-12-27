@@ -12,6 +12,7 @@ export const useCurrentGame = () => useContext(Context);
 type Props = {
   gameCode?: string;
   matchId?: string;
+  children?: React.ReactNode;
 };
 
 export const GameProvider: FC<Props> = ({ children, gameCode, matchId }) => {

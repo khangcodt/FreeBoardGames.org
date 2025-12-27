@@ -1,9 +1,7 @@
 /* eslint-disable react/prop-types */
-import { makeStyles } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import React, { ComponentProps } from 'react';
-import { nextI18Next } from '../config';
-
-const { Trans: Translation } = nextI18Next;
+import { Trans as Translation } from 'react-i18next';
 
 const useStyleClasses = makeStyles({
   text: {

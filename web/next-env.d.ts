@@ -1,7 +1,5 @@
 /// <reference types="next" />
-/// <reference types="next/types/global" />
-/// <reference types="next-images" />
+/// <reference types="next/image-types/global" />
 
-if (typeof window === 'undefined') {
-  (window as any) = {};
-}
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/pages/building-your-application/configuring/typescript for more information.
