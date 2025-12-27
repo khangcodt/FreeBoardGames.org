@@ -38,6 +38,14 @@ export default {
     BABEL_ENV_IS_PROD: String(BABEL_ENV_IS_PROD),
   },
   webpack: (config: any) => {
+    // Find and disable Next.js's default image handling
+    const fileLoaderRule = config.module.rules.find((rule: any) =>
+      rule.test?.test?.('.png')
+    );
+    if (fileLoaderRule) {
+      fileLoaderRule.exclude = /\.(jpg|jpeg|png|gif|svg|webp|mp3|wav)$/;
+    }
+
     config.module.rules.push({
       test: /\.test.(js|jsx|ts|tsx)$/,
       loader: 'ignore-loader',
@@ -58,7 +66,30 @@ export default {
       exclude: /node_modules/,
       use: [
         {
-          loader: 'url-loader',
+          loader: 'file-loader',
+          options: {
+            publicPath: '/_next/static/media/',
+            outputPath: 'static/media/',
+            name: '[name].[hash].[ext]',
+            esModule: false,
+          },
+        },
+      ],
+    });
+
+    // Handle images with file-loader that works with CommonJS require()
+    config.module.rules.push({
+      test: /\.(jpg|jpeg|png|gif|svg)$/,
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            publicPath: '/_next/static/media/',
+            outputPath: 'static/media/',
+            name: '[name].[hash].[ext]',
+            esModule: false, // This makes it work with CommonJS require()
+          },
         },
       ],
     });

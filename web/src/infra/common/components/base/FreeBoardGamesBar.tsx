@@ -21,21 +21,22 @@ const handleLanguageChange = (event) => {
   window.location.href = `/${event.target.value}`;
 };
 
-function renderLanguageSelect() {
+// Move makeStyles outside of the render function to prevent hydration issues
+const useWhiteStyles = makeStyles({
+  select: {
+    color: 'white!important' as 'white',
+    '&:before, &:after': {
+      display: 'none!important' as 'none',
+    },
+  },
+  icon: {
+    fill: 'white!important' as 'white',
+  },
+});
+
+function LanguageSelect() {
   const { i18n } = nextI18Next.useTranslation();
-  const color = 'white!important' as 'white';
-  const useWhite = makeStyles({
-    select: {
-      color,
-      '&:before, &:after': {
-        display: 'none!important' as 'none',
-      },
-    },
-    icon: {
-      fill: color,
-    },
-  });
-  const classes = useWhite();
+  const classes = useWhiteStyles();
   return (
     <div style={{ marginLeft: 'auto' }}>
       <Select
@@ -82,7 +83,7 @@ const FreeBoardGamesBar: React.FC<FBGBarProps> = (props) => {
                 </Typography>
               </span>
             </Link>
-            {props.toolbarContent ?? renderLanguageSelect()}
+            {props.toolbarContent ?? <LanguageSelect />}
           </Toolbar>
         </AppBar>
       </div>
