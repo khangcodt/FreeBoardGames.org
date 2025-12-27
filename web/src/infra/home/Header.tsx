@@ -30,7 +30,7 @@ const TextContent = () => {
         gutterBottom={true}
         style={{ marginTop: '16px', marginBottom: '16px', whiteSpace: 'pre-line' }}
       >
-        <Trans i18n={i18n} i18nKey="description" components={{ b: <b /> }} />
+        <Trans i18n={i18n} i18nKey="description" ns="Header" components={{ b: <b /> }} />
       </Typography>
     </>
   );

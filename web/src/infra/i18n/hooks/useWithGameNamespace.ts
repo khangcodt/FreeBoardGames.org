@@ -7,6 +7,6 @@ export const useWithGameNamespace = (): WithNamespace => {
   const { t } = nextI18Next.useTranslation();
   return (namespace: string) => (key, fallback) => {
     // @ts-ignore
-    return t(key, fallback, { ns: getGameCodeNamespace(namespace) });
+    return t(key, { defaultValue: fallback, ns: getGameCodeNamespace(namespace) });
   };
 };

@@ -22,6 +22,7 @@ const useStyles = makeStyles({
     backgroundPosition: 'left center',
     backgroundSize: 'cover',
     color: 'black',
+    overflow: 'hidden',
     ...(props.isLink && {
       boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
       borderRadius: '8px',
