@@ -18,7 +18,7 @@ export function setupLogging(app, name) {
   });
   const logger = winston.createLogger({
     level: 'info',
-    transports: [loggingWinston],
+    transports: [loggingWinston as any], // Type assertion needed due to version mismatch between winston and @google-cloud/logging-winston
   });
   app.use(
     expressWinston.logger({

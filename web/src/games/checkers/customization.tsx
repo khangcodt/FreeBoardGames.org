@@ -2,7 +2,7 @@ import * as React from 'react';
 import { GameCustomization, GameCustomizationProps } from 'gamesShared/definitions/customization';
 import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
@@ -29,8 +29,8 @@ export const DEFAULT_FULL_CUSTOMIZATION: FullCustomizationState = {
 
 const changePiecesPerPlayer =
   (onChange: (state?: FullCustomizationState) => void, state: FullCustomizationState) =>
-  (event: React.ChangeEvent<{ value: PiecesPerPlayer }>) => {
-    const index = event.target.value;
+  (event: SelectChangeEvent<PiecesPerPlayer>) => {
+    const index = event.target.value as PiecesPerPlayer;
     const newState: FullCustomizationState = {
       ...state,
       piecesPerPlayer: index,
@@ -66,8 +66,8 @@ const changeStopJumpOnKing =
 
 const changeNMoveRule =
   (onChange: (state?: FullCustomizationState) => void, state: FullCustomizationState) =>
-  (event: React.ChangeEvent<{ value: number }>) => {
-    const index = event.target.value;
+  (event: SelectChangeEvent<number>) => {
+    const index = event.target.value as number;
     const newState: FullCustomizationState = {
       ...state,
       nMoveRule: index,

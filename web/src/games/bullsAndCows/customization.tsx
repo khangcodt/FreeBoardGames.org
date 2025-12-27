@@ -2,7 +2,7 @@ import React from 'react';
 import { GameCustomization, GameCustomizationProps } from 'gamesShared/definitions/customization';
 import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useCurrentGameTranslation } from 'infra/i18n';
 
@@ -31,8 +31,8 @@ const changeAllowToRepeat =
 
 const changeSecretLength =
   (onChange: (state?: FullCustomizationState) => void, state: FullCustomizationState) =>
-  (event: React.ChangeEvent<{ value: number }>) => {
-    const index = event.target.value;
+  (event: SelectChangeEvent<number>) => {
+    const index = event.target.value as number;
     const newState: FullCustomizationState = {
       ...state,
       secretLength: index,
@@ -42,8 +42,8 @@ const changeSecretLength =
 
 const changeLimitOfAttempts =
   (onChange: (state?: FullCustomizationState) => void, state: FullCustomizationState) =>
-  (event: React.ChangeEvent<{ value: number }>) => {
-    const index = event.target.value;
+  (event: SelectChangeEvent<number>) => {
+    const index = event.target.value as number;
     const newState: FullCustomizationState = {
       ...state,
       limitOfAttempts: index,
@@ -53,8 +53,8 @@ const changeLimitOfAttempts =
 
 const changeTotalOfColours =
   (onChange: (state?: FullCustomizationState) => void, state: FullCustomizationState) =>
-  (event: React.ChangeEvent<{ value: number }>) => {
-    const index = event.target.value;
+  (event: SelectChangeEvent<number>) => {
+    const index = event.target.value as number;
     const newState: FullCustomizationState = {
       ...state,
       totalOfColours: index,

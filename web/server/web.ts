@@ -40,7 +40,7 @@ app
     server.get('/.well-known/assetlinks.json', (req, res) => {
       if (isProdChannel && isOfficialSite(req.hostname)) {
         const filePath = `${STATIC_DIR}/.well-known/assetlinks.json`;
-        app.serveStatic(req, res, filePath);
+        res.sendFile(filePath, { root: process.cwd() });
       } else {
         res.sendStatus(404);
       }
@@ -48,7 +48,7 @@ app
 
     server.get('/sitemap.xml', (req, res) => {
       const filePath = `${STATIC_DIR}/sitemap.xml`;
-      app.serveStatic(req, res, filePath);
+      res.sendFile(filePath, { root: process.cwd() });
     });
 
     server.get('/robots.txt', (req, res) => {
@@ -58,13 +58,13 @@ app
       } else {
         filePath = `${STATIC_DIR}/restrictiveRobots.txt`;
       }
-      app.serveStatic(req, res, filePath);
+      res.sendFile(filePath, { root: process.cwd() });
     });
 
     server.get('/sw.js', (req, res) => {
       if (BABEL_ENV_IS_PROD) {
         const filePath = `${STATIC_DIR}/sw.js`;
-        app.serveStatic(req, res, filePath);
+        res.sendFile(filePath, { root: process.cwd() });
       } else {
         res.sendStatus(404);
       }
@@ -72,7 +72,7 @@ app
 
     server.get('/manifest.json', (req, res) => {
       const filePath = `${STATIC_DIR}/manifest.json`;
-      app.serveStatic(req, res, filePath);
+      res.sendFile(filePath, { root: process.cwd() });
     });
 
     server.get('/blog*', (req, res) => {

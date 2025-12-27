@@ -66,7 +66,7 @@ export class EnterWordPromptInternal extends React.Component<
                 type="text"
                 label={this.props.translate('EnterWordPrompt.hint_max_chars', { MAX_CHARS: 120 })}
                 fullWidth
-                rowsMax={4}
+                maxRows={4}
                 onChange={this._onHintChange}
                 onKeyPress={this._setEnterWordOnEnterButton}
                 style={{ margin: '8px', width: '90%' }}
