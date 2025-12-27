@@ -9103,11 +9103,6 @@ i18next-fs-backend@^2.6.0:
   resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.6.1.tgz#bb352278136f47599783308df29f0a1b6a0d08b6"
   integrity sha512-eYWTX7QT7kJ0sZyCPK6x1q+R63zvNKv2D6UdbMf15A8vNb2ZLyw4NNNZxPFwXlIv/U+oUtg8SakW6ZgJZcoqHQ==
 
-i18next-hmr@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/i18next-hmr/-/i18next-hmr-3.1.5.tgz#7ceaa90eb4981a83ab210469522128ee8864ebe5"
-  integrity sha512-zqK0DUbp88ErUdwO68byIpDmzYeNhuEPqPVpRvSs1RUWmlbunNgRDbvZrnq/eRqGTI0HNRAc1YAmYnImEuOJcQ==
-
 i18next@^25.7.3:
   version "25.7.3"
   resolved "https://registry.yarnpkg.com/i18next/-/i18next-25.7.3.tgz#88bf15b414012a53ca87b9d408108aa81cb627cc"
