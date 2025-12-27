@@ -30,13 +30,13 @@ import css from './GameInfo.module.css';
 
 interface GameInfoInnerProps extends Pick<WithTranslation, 't' | 'i18n'>, WithCurrentGameTranslation {}
 
-interface GameInfoOutterProps {
+interface GameInfoOuterProps {
   gameCode: string;
   asPath: string;
   userAgent?: string;
 }
 
-class GameInfo extends React.Component<GameInfoInnerProps & GameInfoOutterProps, {}> {
+class GameInfo extends React.Component<GameInfoInnerProps & GameInfoOuterProps, {}> {
   render() {
     const { gameCode, t, translate, i18n } = this.props;
     const gameDef = getGameDefinition(gameCode);
