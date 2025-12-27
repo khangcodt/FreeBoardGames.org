@@ -25,6 +25,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const namespaces = [
     'GameInfo',
     'GameContributors',
+    'GameModePicker',
+    'GameModePickerCard',
     'LobbyCarousel',
     'About', // Used by GameInstructionsVideo
     gameNamespace,

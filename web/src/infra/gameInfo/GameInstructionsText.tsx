@@ -12,8 +12,14 @@ export class GameInstructionsText extends React.Component<IGameInstructionsProps
     return (
       <Card style={{ marginBottom: 16 }}>
         <div style={{ padding: '0 8px' }}>
-          <Typography variant="body1" component="div">
-            <ReactMarkdown linkTarget="_blank" source={this.props.text} />
+          <Typography component="div">
+            <ReactMarkdown 
+              components={{
+                a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />
+              }}
+            >
+              {this.props.text}
+            </ReactMarkdown>
           </Typography>
         </div>
       </Card>

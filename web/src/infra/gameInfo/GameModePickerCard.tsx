@@ -64,7 +64,7 @@ export class GameModePickerCardInternal extends React.Component<IGameModePickerC
     return (
       <>
         <Card key={title} style={{ margin: '0 0 16px 0' }}>
-          <CardHeader avatar={<Avatar aria-label={title}>{icon}</Avatar>} title={title} />
+          <CardHeader avatar={<Avatar>{icon}</Avatar>} title={title} />
           <CardContent>
             <Typography component="p">{description}</Typography>
           </CardContent>

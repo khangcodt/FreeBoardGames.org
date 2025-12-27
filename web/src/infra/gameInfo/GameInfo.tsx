@@ -86,8 +86,14 @@ class GameInfo extends React.Component<GameInfoInnerProps & GameInfoOuterProps, 
               <GameCard game={gameDef} />
               <div style={{ marginTop: '16px' }}>
                 <div className={css.InstructionsWrapper}>
-                  <Typography variant="body1" component="p">
-                    <ReactMarkdown linkTarget="_blank" source={textInstructions} />
+                  <Typography component="div">
+                    <ReactMarkdown 
+                      components={{
+                        a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />
+                      }}
+                    >
+                      {textInstructions}
+                    </ReactMarkdown>
                   </Typography>
                 </div>
               </div>
