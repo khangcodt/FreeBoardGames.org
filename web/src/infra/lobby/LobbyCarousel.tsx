@@ -7,7 +7,7 @@ import { Typography, CircularProgress } from '@mui/material';
 import { getGroupedRoomsDisplay, orderCurrentGameFirst } from './LobbyUtil';
 import { NewRoomModal } from './NewRoomModal';
 import { LobbyService } from 'infra/common/services/LobbyService';
-import { Subscription } from '@apollo/client';
+import { Subscription } from '@apollo/client/react/components';
 import css from './LobbyCarousel.module.css';
 import { withTranslation, WithTranslation } from 'infra/i18n';
 import { getGameDefinition } from 'infra/game';

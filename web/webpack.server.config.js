@@ -6,7 +6,11 @@ const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 var config = {
   target: 'node',
-  externals: [nodeExternals()],
+  externals: [
+    nodeExternals({
+      allowlist: [/^@mui/, /^@emotion/],
+    }),
+  ],
 
   entry: {
     server_bgio: path.resolve(__dirname, 'server/bgio.ts'),

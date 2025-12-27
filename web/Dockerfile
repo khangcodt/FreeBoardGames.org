@@ -21,18 +21,22 @@ RUN node -e "import('./cli/codegen/genGames.js').then(m => m.genGames())"
 
 # Copy files needed for GraphQL codegen
 COPY --chown=appuser web/codegen.ts /appdata/web/
-COPY --chown=appuser common/gql /common
+COPY --chown=appuser common/gql /appdata/common/gql
 
-# Run GraphQL and i18n codegen from web directory where node_modules binaries are available
+# Copy server files and config needed for i18n:copy script
+COPY --chown=appuser web/server /appdata/web/server
+COPY --chown=appuser web/tsconfig.server.json /appdata/web/
+
+# Run GraphQL codegen from web directory where node_modules binaries are available
 WORKDIR /appdata/web
-RUN yarn run apollo:codegen && yarn run i18n:copy
+RUN yarn run apollo:codegen
 
-# Copy web configuration files
-COPY --chown=appuser web/tsconfig.server.json web/webpack.server.config.js /appdata/web/
+# Copy remaining web configuration files
+COPY --chown=appuser web/webpack.server.config.js /appdata/web/
 
 # Copy common files (previously from fbg-common image)
-COPY --chown=appuser common/gql /common
-COPY --chown=appuser common/internal /internal
+COPY --chown=appuser common/gql /appdata/common/gql
+COPY --chown=appuser common/internal /appdata/internal
 
 # Build server
 COPY --chown=appuser web/src /appdata/web/src
@@ -46,6 +50,10 @@ COPY --chown=appuser web/.babelrc web/next.config.js /appdata/web/
 COPY --chown=appuser web/public /appdata/web/public/
 COPY --chown=appuser web/.storybook /appdata/web/.storybook/
 COPY --chown=appuser web/docs /appdata/web/docs/
+
+# Run i18n:copy after public directory exists
+RUN yarn run i18n:copy
+
 RUN yarn run build
 
 # Final production image
@@ -65,8 +73,8 @@ COPY --chown=appuser --from=builder /appdata/web/.next /appdata/.next
 COPY --chown=appuser --from=builder /appdata/web/server /appdata/server
 
 # Internal configs for FreeBoardGames.org
-COPY --chown=appuser --from=builder /internal /internal
-COPY --chown=appuser --from=builder /common /common
+COPY --chown=appuser --from=builder /appdata/internal /internal
+COPY --chown=appuser --from=builder /appdata/common /common
 
 # Run
 CMD ./docker_run.sh

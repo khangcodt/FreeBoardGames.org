@@ -4,7 +4,7 @@ import { LoadingMessage } from 'infra/common/components/alert/LoadingMessage';
 import SEO from 'infra/common/helpers/SEO';
 import { TGameCode } from 'infra/types';
 import dynamic from 'next/dynamic';
-import Error from 'pages/_error';
+import Error from 'next/error';
 import React from 'react';
 import { getGameDefinition } from './utils';
 

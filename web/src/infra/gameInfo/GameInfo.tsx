@@ -1,12 +1,11 @@
-import { Typography } from '@mui/material';
-import Alert from '@mui/lab/Alert';
+import { Typography, Alert } from '@mui/material';
 import { makeTranslationStatusComparator } from 'gamesShared/helpers/translationStatus';
 import FreeBoardGamesBar from 'infra/common/components/base/FreeBoardGamesBar';
 import { GameCard } from 'infra/common/components/game/GameCard';
 import { DesktopView, MobileView } from 'infra/common/device/DesktopMobileView';
 import Breadcrumbs from 'infra/common/helpers/Breadcrumbs';
 import SEO from 'infra/common/helpers/SEO';
-import { getGameDefinition } from 'infra/game';
+import { getGameDefinition, getAllGames } from 'infra/game';
 import { getGameCodeNamespace } from 'infra/game/utils';
 import { GameInstructionsText } from 'infra/gameInfo/GameInstructionsText';
 import { GameInstructionsVideo } from 'infra/gameInfo/GameInstructionsVideo';
@@ -19,13 +18,13 @@ import {
   WithTranslation,
 } from 'infra/i18n';
 import { play } from 'infra/navigation';
-import { NextPageContext } from 'next';
-import { generatePageError } from 'next-with-error';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { compose } from 'recompose';
 import { GameContributors } from './GameContributors';
-import LobbyCarousel from 'infra/lobby/LobbyCarousel';
+const LobbyCarousel = dynamic(() => import('infra/lobby/LobbyCarousel'), { ssr: false });
 import css from './GameInfo.module.css';
 
 interface GameInfoInnerProps extends Pick<WithTranslation, 't' | 'i18n'>, WithCurrentGameTranslation {}
@@ -40,6 +39,9 @@ class GameInfo extends React.Component<GameInfoInnerProps & GameInfoOuterProps, 
   render() {
     const { gameCode, t, translate, i18n } = this.props;
     const gameDef = getGameDefinition(gameCode);
+    if (!gameDef) {
+      return null;
+    }
     const { name, instructions, description, descriptionTag } = gameDef;
 
     const videoInstructions = translate('instructions.videoId', instructions.videoId);
@@ -83,23 +85,6 @@ class GameInfo extends React.Component<GameInfoInnerProps & GameInfoOuterProps, 
             <div className={css.RightCol}>
               <GameCard game={gameDef} />
               <div style={{ marginTop: '16px' }}>
-                {!isFullyTranslated(gameDef) && (
-                  <Alert severity="warning">
-                    <Trans
-                      t={t}
-                      i18nKey="missing_translation_warning"
-                      components={{
-                        docs: (
-                          <a
-                            aria-label="translation docs"
-                            target="_blank"
-                            href="/docs/?path=/story/documentation-how-to-translation-game-translation--page"
-                          />
-                        ),
-                      }}
-                    />
-                  </Alert>
-                )}
                 <div className={css.InstructionsWrapper}>
                   <Typography variant="body1" component="p">
                     <ReactMarkdown linkTarget="_blank" source={textInstructions} />
@@ -127,31 +112,7 @@ class GameInfo extends React.Component<GameInfoInnerProps & GameInfoOuterProps, 
     );
   }
 
-  static async getInitialProps(ctx: NextPageContext) {
-    const gameCode = ctx.query.gameCode as string;
-    const game = getGameDefinition(gameCode);
 
-    if (!game && ctx.res) {
-      return generatePageError(404);
-    }
-
-    return {
-      gameCode,
-      namespacesRequired: [
-        'CustomizationBar',
-        'GameCard',
-        'GameContributors',
-        'GameInfo',
-        'GameModePicker',
-        'GameModePickerCard',
-        'NicknamePrompt',
-        'NicknameRequired',
-        'OccupancySelect',
-        'LobbyCarousel',
-        getGameCodeNamespace(gameCode),
-      ],
-    };
-  }
 }
 
 const enhance = compose(withTranslation('GameInfo'), withCurrentGameTranslation);

@@ -37,11 +37,11 @@ const forceDbSync = process.env.FORCE_DB_SYNC === 'true';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      debug: !isProd,
-      playground: !isProd,
-      installSubscriptionHandlers: true,
       autoSchemaFile: join(process.cwd(), '../common/gql/schema.gql'),
       context: ({ req }) => ({ req }),
+      subscriptions: {
+        'graphql-ws': true,
+      },
     }),
     UsersModule,
     RoomsModule,

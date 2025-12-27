@@ -1,4 +1,4 @@
-import { Subscription } from '@apollo/client';
+import { Subscription } from '@apollo/client/react/components';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import ReplayIcon from '@mui/icons-material/Replay';

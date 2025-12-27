@@ -15,6 +15,7 @@ import { IGameStatus } from 'gamesShared/definitions/game';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { useTranslation } from 'infra/i18n';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const About = () => {
   const router = useRouter();
@@ -37,6 +38,13 @@ const About = () => {
     </FreeBoardGamesBar>
   );
 };
+
+export const getServerSideProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['About'])),
+  },
+});
+
 export default About;
 
 function AboutCard() {
