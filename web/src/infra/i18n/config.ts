@@ -1,4 +1,4 @@
-import { useTranslation as useTranslationBase, withTranslation as withTranslationBase, appWithTranslation as appWithTranslationBase } from 'next-i18next';
+import { useTranslation as useTranslationBase, withTranslation as withTranslationBase, appWithTranslation as appWithTranslationBase, serverSideTranslations } from 'next-i18next';
 import { i18n, localeSubpaths } from 'server/config/i18n';
 import { localePath } from './constants';
 import { namespace } from './utils/ns';
@@ -10,9 +10,13 @@ export const nextI18Next = {
   useTranslation: useTranslationBase,
   withTranslation: withTranslationBase,
   appWithTranslation: appWithTranslationBase,
+  serverSideTranslations: serverSideTranslations,
   i18n: i18n,
   config: { i18n, localePath, ns: namespace },
 };
+
+// Export serverSideTranslations for convenience
+export { serverSideTranslations };
 
 
 

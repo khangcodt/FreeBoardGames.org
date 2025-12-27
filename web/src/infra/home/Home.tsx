@@ -1,7 +1,6 @@
 import FreeBoardGamesBar from 'infra/common/components/base/FreeBoardGamesBar';
 import { GamesList } from 'infra/common/components/game/GamesList';
 import SEO from 'infra/common/helpers/SEO';
-import { getAllGames, getGameCodeNamespace } from 'infra/game';
 import Header from 'infra/home/Header';
 import { Link, withTranslation, WithTranslation } from 'infra/i18n';
 import LobbyCarousel from 'infra/lobby/LobbyCarousel';
@@ -38,20 +37,6 @@ export class HomeInternal extends React.Component<HomeInternalInnerProps & HomeI
       return;
     }
     return <GamesList showDevOnly={true} />;
-  }
-
-  static async getInitialProps() {
-    return {
-      namespacesRequired: [
-        'Home',
-        'Header',
-        'LobbyCarousel',
-        'GamesList',
-        'GameCard',
-        'SearchBox',
-        ...getAllGames().map((g) => getGameCodeNamespace(g.code)),
-      ],
-    };
   }
 }
 

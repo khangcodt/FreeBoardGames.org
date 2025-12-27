@@ -3,7 +3,8 @@ import Typography from '@mui/material/Typography';
 import CodeIcon from '@mui/icons-material/Code';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import SubjectIcon from '@mui/icons-material/Subject';
-import { Trans, useTranslation } from 'infra/i18n';
+import { Trans } from 'react-i18next';
+import { useTranslation } from 'infra/i18n';
 import React from 'react';
 
 const Header = () => {
@@ -16,7 +17,7 @@ const Header = () => {
 };
 
 const TextContent = () => {
-  const { t } = useTranslation('Header');
+  const { t, i18n } = useTranslation('Header');
 
   return (
     <>
@@ -27,9 +28,9 @@ const TextContent = () => {
         component="h2"
         variant="body2"
         gutterBottom={true}
-        style={{ marginTop: '16px', marginBottom: '16px' }}
+        style={{ marginTop: '16px', marginBottom: '16px', whiteSpace: 'pre-line' }}
       >
-        <Trans t={t} i18nKey="description" components={{ b: <b /> }} />
+        <Trans i18n={i18n} i18nKey="description" components={{ b: <b /> }} />
       </Typography>
     </>
   );
