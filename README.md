@@ -4,6 +4,17 @@ FOSS platform for publishing your [boardgame.io](https://boardgame.io) games. We
 
 Play now at [FreeBoardGames.org](https://FreeBoardGames.org/)
 
+## 🆕 Modernization (December 2024)
+
+FreeBoardGames has been modernized to run on **Node.js 24** with current, maintained dependencies including:
+- **Next.js 14** (from 9.5)
+- **React 18** (from 16)
+- **MUI v6** (from Material-UI v4)
+- **NestJS 10** (from 8)
+- **TypeScript 5.7** (from 4.x)
+
+See [UPGRADE_GUIDE.md](./UPGRADE_GUIDE.md) for complete details on changes and migration steps.
+
 ## Contributing
 
 Check out [**our documentation**](https://www.freeboardgames.org/docs/) and [**how to add your game**](https://www.freeboardgames.org/docs/?path=/docs/documentation-getting-started-adding-a-new-game--page).

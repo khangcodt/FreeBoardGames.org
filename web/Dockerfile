@@ -1,6 +1,6 @@
 # web
 FROM fbg-common:latest AS common
-FROM node:16.14-alpine3.14 AS builder
+FROM node:24.12.0-alpine3.21 AS builder
 RUN apk add --no-cache autoconf automake file g++ libtool make nasm libpng-dev libc6-compat
 RUN addgroup -g 938 appuser && adduser -h /appdata -S -u 997 -G appuser appuser && rm /bin/su
 USER appuser
@@ -26,7 +26,7 @@ COPY --chown=appuser .storybook /appdata/.storybook
 COPY --chown=appuser docs /appdata/docs
 RUN yarn run build
 
-FROM node:16.14-alpine3.14
+FROM node:24.12.0-alpine3.21
 RUN apk add --no-cache bash
 RUN addgroup -g 938 appuser && adduser -h /appdata -S -u 997 -G appuser appuser && rm /bin/su
 USER appuser
