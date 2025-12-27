@@ -8,7 +8,7 @@
     "lint": "node ../cli/lint/lint.js",
     "fix": "node ../cli/fix/fix.js",
     "dev": "node ../cli/dev/cli.js",
-    "apollo:codegen": "rimraf src/gqlTypes && apollo client:codegen -c apollo.config.js --target typescript --outputFlat src/gqlTypes",
+    "apollo:codegen": "rimraf src/gqlTypes && graphql-codegen --config codegen.ts",
     "pre": "run-s lint build:server test ci:test:e2e",
     "dev:internal": "run-p i18n:watch dev:internal:start",
     "dev:internal:start": "start-server-and-test dev:web http://localhost:3000 bgio:dev",

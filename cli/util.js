@@ -1,5 +1,5 @@
-import shell from "shelljs";
-import chalk from "chalk";
+import { execSync } from "child_process";
+import { existsSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -7,17 +7,19 @@ const thisUrl = fileURLToPath(import.meta.url);
 export const ROOT = path.resolve(path.dirname(thisUrl), "..");
 
 export function fbgRun(cmd, err) {
-  if (shell.exec(cmd).code !== 0) {
-    printErr(err);
-    shell.exit(1);
+  try {
+    execSync(cmd, { cwd: process.cwd(), stdio: 'inherit' });
+  } catch (error) {
+    if (err) printErr(err);
+    process.exit(1);
   }
 }
 
 export function cd(dir) {
   if (dir) {
-    shell.cd(path.resolve(ROOT, dir));
+    process.chdir(path.resolve(ROOT, dir));
   } else {
-    shell.cd(ROOT);
+    process.chdir(ROOT);
   }
 }
 
@@ -26,31 +28,27 @@ export function decodeCsv(csv) {
 }
 
 export function dirExists(dir) {
-  return shell.test("-d", dir);
+  return existsSync(dir);
 }
 
 export function print(text) {
-  console.log(`${chalk.black.bgBlueBright(" FBG ")} ${text}`);
+  console.log(`[FBG] ${text}`);
 }
 
 export function printErr(text) {
-  console.error(`${chalk.black.bgRed(" FBG ")} ${text}`);
+  console.error(`[FBG ERROR] ${text}`);
 }
 
 export function checkEnvironment() {
   if (!dirExists(path.resolve(ROOT, "node_modules"))) {
-    printErr(
-      `Run ${chalk.inverse(
-        "yarn install"
-      )} on root before running this command.`
-    );
-    shell.exit(1);
+    printErr("Run 'yarn install' on root before running this command.");
+    process.exit(1);
   }
 }
 
 export function checkGameExists(game) {
   if (!dirExists(path.resolve(ROOT, "web", "src", "games", game))) {
-    printErr(`${chalk.inverse(game)}: Game not found.`);
-    shell.exit(1);
+    printErr(`${game}: Game not found.`);
+    process.exit(1);
   }
 }

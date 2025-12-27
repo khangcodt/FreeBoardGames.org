@@ -21,8 +21,8 @@ export const FBG_PUB_SUB = 'FbgPubSub';
         };
 
         return new RedisPubSub({
-          publisher: new Redis(options),
-          subscriber: new Redis(options),
+          publisher: new Redis(options) as any,
+          subscriber: new Redis(options) as any,
         });
       }
     },

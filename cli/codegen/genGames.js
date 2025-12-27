@@ -1,4 +1,3 @@
-import shell from "shelljs";
 import { cd, checkGameExists } from "../util.js";
 import fs from "fs";
 import path from "path";
@@ -12,7 +11,8 @@ export function genGames(games = []) {
 }
 
 function orderGames(games) {
-  const config = JSON.parse(shell.cat("config.json"));
+  const configContent = fs.readFileSync("config.json", "utf8");
+  const config = JSON.parse(configContent);
   const order = config.order;
   const result = [...games].sort((a, b) => {
     let aIndex = order.indexOf(a);
@@ -29,10 +29,9 @@ function orderGames(games) {
 }
 
 function getAllGames() {
-  return shell
-    .ls("-Al")
-    .filter((f) => f.isDirectory())
-    .map((f) => f.name);
+  return fs.readdirSync(process.cwd(), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
 }
 
 function genFileContent(games) {
@@ -62,6 +61,6 @@ ${listGen.join("\n")}
 }
 
 function writeFile(fileContent) {
-  const filePath = path.resolve(`${shell.pwd()}`, "index.ts");
+  const filePath = path.resolve(process.cwd(), "index.ts");
   fs.writeFileSync(filePath, fileContent);
 }

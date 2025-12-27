@@ -1,4 +1,5 @@
-import { Controller, Get, HttpService } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { PORT } from './constants';
 
 const LOBBY_QUERY = `

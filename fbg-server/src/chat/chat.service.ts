@@ -5,7 +5,6 @@ import { UsersService } from '../users/users.service';
 import { PubSub } from 'graphql-subscriptions';
 import { SendMessageInput } from './gql/SendMessageInput.gql';
 import { Message } from './gql/Message.gql';
-import Filter from 'bad-words';
 import { FBG_PUB_SUB } from '../internal/FbgPubSubModule';
 import { ChannelType } from './types';
 import { RoomEntity } from 'src/rooms/db/Room.entity';
@@ -35,16 +34,7 @@ export class ChatService {
     const user = await this.usersService.getById(userId);
     const userNickname = user.nickname;
     const isoTimestamp = new Date().toISOString();
-    let messageContent;
-    if (await this.checkChannelIsPublic(messageInput.channelType, messageInput.channelId)) {
-      try {
-        messageContent = new Filter().clean(messageInput.message);
-      } catch {
-        messageContent = messageInput.message;
-      }
-    } else {
-      messageContent = messageInput.message;
-    }
+    let messageContent = messageInput.message;
     messageContent = (messageContent || '').substring(0, MAX_MESSAGE_LENGTH);
     messageContent = messageContent.replace(/[\r\n]+/gm, '');
     const message: Message = {

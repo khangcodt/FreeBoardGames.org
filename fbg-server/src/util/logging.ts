@@ -21,7 +21,7 @@ export function setupLogging(app: INestApplication, name: string): void {
   });
   const logger = winston.createLogger({
     level: 'info',
-    transports: [loggingWinston],
+    transports: [loggingWinston as any],
   });
   app.use(
     expressWinston.logger({

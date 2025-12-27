@@ -1,4 +1,5 @@
-import { Injectable, HttpStatus, HttpException, Inject, HttpService } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException, Inject } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Connection, QueryRunner } from 'typeorm';
 import { RoomEntity } from './db/Room.entity';

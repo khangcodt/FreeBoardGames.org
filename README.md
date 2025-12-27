@@ -27,7 +27,21 @@ Contributions are always welcome, even if just reporting bugs (check our [issue 
 
 ## Running locally
 
+### With Docker (Recommended)
+
+```bash
+git clone https://github.com/freeboardgames/FreeBoardGames.org
+cd FreeBoardGames.org
+
+docker-compose up --build  # Builds and starts all services
+# Access at http://localhost:3000
 ```
+
+See [DOCKER_SETUP.md](DOCKER_SETUP.md) for detailed Docker instructions including production deployment with SSL.
+
+### Without Docker
+
+```bash
 git clone https://github.com/freeboardgames/FreeBoardGames.org
 cd FreeBoardGames.org
 

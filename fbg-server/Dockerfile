@@ -1,34 +1,41 @@
-# fbg-server
-FROM fbg-common:latest AS common
-FROM node:24.12.0-alpine3.21 AS builder
+# Simplified fbg-server Dockerfile for FreeBoardGames.org
+FROM node:24.12.0-alpine AS builder
+RUN apk add --no-cache python3 py3-setuptools make g++
 RUN addgroup -g 938 appuser && adduser -h /appdata -S -u 997 -G appuser appuser && rm /bin/su
 USER appuser
 WORKDIR /appdata
 
-# install and cache app dependencies
-COPY --chown=appuser package.json yarn.lock /appdata/
+# Install and cache app dependencies
+COPY --chown=appuser fbg-server/package.json fbg-server/yarn.lock /appdata/
 RUN yarn install && yarn cache clean
 
-# config
-COPY --chown=appuser tsconfig.json tsconfig.build.json nest-cli.json /appdata/
+# Copy configuration files
+COPY --chown=appuser fbg-server/tsconfig.json fbg-server/tsconfig.build.json fbg-server/nest-cli.json /appdata/
 
-# build
-COPY --chown=appuser src /appdata/src
+# Copy common files (previously from fbg-common image)
+COPY --chown=appuser common/gql /common/
+COPY --chown=appuser common/internal /internal/
+
+# Build application
+COPY --chown=appuser fbg-server/src /appdata/src/
 RUN yarn run build
 
-FROM node:24.12.0-alpine3.21
+# Final production image
+FROM node:24.12.0-alpine
 RUN addgroup -g 938 appuser && adduser -h /appdata -S -u 997 -G appuser appuser && rm /bin/su
 USER appuser
 WORKDIR /appdata
 
-COPY --chown=appuser package.json yarn.lock /appdata/
-RUN yarn install --production && yarn cache clean
+# Copy package files and pre-built node_modules from builder (avoids rebuilding native modules)
+COPY --chown=appuser fbg-server/package.json fbg-server/yarn.lock /appdata/
+COPY --chown=appuser --from=builder /appdata/node_modules /appdata/node_modules/
 
-COPY --chown=appuser tsconfig.json tsconfig.build.json nest-cli.json /appdata/
-COPY --chown=appuser --from=builder /appdata/dist /appdata/dist
-# internal configs for FreeBoardGames.org
-COPY --chown=appuser --from=common /internal /internal
-COPY --chown=appuser --from=common /common /common
+COPY --chown=appuser fbg-server/tsconfig.json fbg-server/tsconfig.build.json fbg-server/nest-cli.json /appdata/
+COPY --chown=appuser --from=builder /appdata/dist /appdata/dist/
 
-# run
+# Internal configs for FreeBoardGames.org
+COPY --chown=appuser --from=builder /internal /internal/
+COPY --chown=appuser --from=builder /common /common/
+
+# Run
 CMD yarn run start:prod
