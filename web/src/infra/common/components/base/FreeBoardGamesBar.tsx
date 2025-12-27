@@ -4,11 +4,12 @@ import MenuItem from '@mui/material/MenuItem';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import FbgLogo from './media/fbg_logo_white_48.png';
 import { Link } from 'infra/i18n';
 import { home } from 'infra/navigation';
 import { nextI18Next } from 'infra/i18n/config';
 import LanguageIcon from '@mui/icons-material/Language';
+
+const FbgLogo = require('./media/fbg_logo_white_48.png');
 
 type FBGBarProps = {
   FEATURE_FLAG_readyForDesktopView?: boolean;
@@ -63,9 +64,9 @@ const FreeBoardGamesBar: React.FC<FBGBarProps> = (props) => {
       >
         <AppBar position="sticky">
           <Toolbar>
-            <Link href={() => home()}>
-              <span style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                <img style={{ marginRight: '8px' }} width="48" height="48" src={FbgLogo.src} alt="FbG" />
+            <Link href={() => home()} style={{ textDecoration: 'none' }}>
+              <span style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                <img style={{ marginRight: '8px' }} width="48" height="48" src={FbgLogo} alt="FbG" />
                 <Typography component="h1" variant="h6" style={{ color: 'white' }}>
                   FreeBoardGames.org
                 </Typography>
