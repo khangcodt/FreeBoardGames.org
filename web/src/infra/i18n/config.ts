@@ -11,7 +11,7 @@ export const nextI18Next = {
   withTranslation: withTranslationBase,
   appWithTranslation: appWithTranslationBase,
   i18n: i18n,
-  config: { i18n, localePath, ns: namespace },
+  config: namespace ? { i18n, localePath, ns: namespace } : { i18n, localePath },
 };
 
 

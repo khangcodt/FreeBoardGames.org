@@ -2,6 +2,7 @@ import { LoadingMessage } from 'infra/common/components/alert/LoadingMessage';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import React from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const DynamicRoom = dynamic(() => import('infra/room/Room'), {
   ssr: false,
@@ -12,9 +13,9 @@ const Room: NextPage = () => {
   return <DynamicRoom />;
 };
 
-Room.getInitialProps = () => {
-  return {
-    namespacesRequired: [
+export const getServerSideProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, [
       'Chat',
       'ChatInput',
       'CustomizationBar',
@@ -30,8 +31,8 @@ Room.getInitialProps = () => {
       'Room',
       'SearchBox',
       'StartMatchButton',
-    ],
-  };
-};
+    ])),
+  },
+});
 
 export default Room;
