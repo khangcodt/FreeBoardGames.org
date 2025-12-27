@@ -15,6 +15,7 @@ import { wrapper } from 'infra/common/redux/store';
 import { appWithTranslation } from 'next-i18next';
 import Head from 'next/head';
 import React from 'react';
+import { Provider } from 'react-redux';
 import createEmotionCache from 'infra/common/components/theme/createEmotionCache';
 
 const SENTRY_DSN = 'https://5957292e58cf4d2fbb781910e7b26b1f@o397015.ingest.sentry.io/5251165';
@@ -64,6 +65,8 @@ interface MyAppProps {
 }
 
 function DefaultApp({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) {
+  const { store, props } = wrapper.useWrappedStore(pageProps);
+  
   React.useEffect(() => {
     // Remove the server-side injected CSS (emotion styles):
     const emotionStyles = document.querySelector('[data-emotion]');
@@ -82,29 +85,31 @@ function DefaultApp({ Component, pageProps, emotionCache = clientSideEmotionCach
   }, []);
 
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="application-name" content="FreeBoardGames.org" />
-        <meta name="apple-mobile-web-app-title" content="FreeBoardGames.org" />
-        <meta name="theme-color" content="#3f51b5" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <meta name="msapplication-TileColor" content="#ffc40d" />
-        <meta name="msapplication-config" content="/static/icons/browserconfig.xml" />
-      </Head>
-      <ThemeProvider>
-        <SelfXSSWarning />
-        <ApolloProvider client={client}>
-          <GameProvider {...pageProps}>
-            <Component {...pageProps} />
-          </GameProvider>
-        </ApolloProvider>
-      </ThemeProvider>
-    </CacheProvider>
+    <Provider store={store}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="application-name" content="FreeBoardGames.org" />
+          <meta name="apple-mobile-web-app-title" content="FreeBoardGames.org" />
+          <meta name="theme-color" content="#3f51b5" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <meta name="msapplication-TileColor" content="#ffc40d" />
+          <meta name="msapplication-config" content="/static/icons/browserconfig.xml" />
+        </Head>
+        <ThemeProvider>
+          <SelfXSSWarning />
+          <ApolloProvider client={client}>
+            <GameProvider {...props}>
+              <Component {...props} />
+            </GameProvider>
+          </ApolloProvider>
+        </ThemeProvider>
+      </CacheProvider>
+    </Provider>
   );
 }
 
-export default wrapper.withRedux(appWithTranslation(DefaultApp));
+export default appWithTranslation(DefaultApp);
