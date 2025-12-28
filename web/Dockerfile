@@ -46,7 +46,7 @@ RUN yarn run build:server
 
 # Build website
 ARG GIT_REV
-COPY --chown=appuser web/.babelrc web/next.config.js /appdata/web/
+COPY --chown=appuser web/.babelrc web/next.config.js web/next-i18next.config.js /appdata/web/
 COPY --chown=appuser web/public /appdata/web/public/
 COPY --chown=appuser web/.storybook /appdata/web/.storybook/
 COPY --chown=appuser web/docs /appdata/web/docs/
