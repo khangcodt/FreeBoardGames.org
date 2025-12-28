@@ -3,6 +3,9 @@
 # ==========================================
 FROM node:24.12.0-alpine AS builder
 
+# Install build dependencies for native modules (e.g., sqlite3)
+RUN apk add --no-cache python3 py3-setuptools make g++
+
 # Create non-root user for security
 RUN addgroup -g 938 appuser && \
     adduser -h /appdata -S -u 997 -G appuser appuser && \
@@ -32,6 +35,9 @@ RUN yarn run build
 # Production Stage - Minimal runtime image
 # ==========================================
 FROM node:24.12.0-alpine
+
+# Install build dependencies for native modules (e.g., sqlite3)
+RUN apk add --no-cache python3 py3-setuptools make g++
 
 # Create non-root user for security
 RUN addgroup -g 938 appuser && \
