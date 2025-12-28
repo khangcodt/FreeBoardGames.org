@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       gameCode,
-      ...(await serverSideTranslations(locale, namespaces)),
+      ...(await serverSideTranslations(locale!, namespaces)),
     },
   };
 };

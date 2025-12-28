@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import React from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetServerSideProps } from 'next';
 
 const DynamicRoom = dynamic(() => import('infra/room/Room'), {
   ssr: false,
@@ -13,9 +14,9 @@ const Room: NextPage = () => {
   return <DynamicRoom />;
 };
 
-export const getServerSideProps = async ({ locale }) => ({
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, [
+    ...(await serverSideTranslations(locale!, [
       'Chat',
       'ChatInput',
       'CustomizationBar',

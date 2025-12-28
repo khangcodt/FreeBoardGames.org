@@ -16,6 +16,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { useTranslation } from 'infra/i18n';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetServerSideProps } from 'next';
 
 const About = () => {
   const router = useRouter();
@@ -39,9 +40,9 @@ const About = () => {
   );
 };
 
-export const getServerSideProps = async ({ locale }) => ({
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['About'])),
+    ...(await serverSideTranslations(locale!, ['About'])),
   },
 });
 
