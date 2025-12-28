@@ -1,80 +1,134 @@
-# Simplified web/bgio Dockerfile for FreeBoardGames.org
+# ==========================================
+# Builder Stage - Build the application
+# ==========================================
 FROM node:24.12.0-alpine AS builder
-RUN apk add --no-cache python3 py3-setuptools autoconf automake file g++ libtool make nasm libpng-dev libc6-compat
-RUN addgroup -g 938 appuser && adduser -h /appdata -S -u 997 -G appuser appuser && rm /bin/su
+
+# Install build tools needed for native dependencies (e.g., jimp and its transitive deps)
+RUN apk add --no-cache \
+    python3 \
+    py3-setuptools \
+    autoconf \
+    automake \
+    file \
+    g++ \
+    libtool \
+    make \
+    nasm \
+    libpng-dev
+
+# Create non-root user for security
+RUN addgroup -g 938 appuser && \
+    adduser -h /appdata -S -u 997 -G appuser appuser && \
+    rm /bin/su
+
 USER appuser
 WORKDIR /appdata
 
-# Copy web dependencies and install them at /appdata/web (maintain structure for Next.js)
-COPY --chown=appuser web/package.json web/yarn.lock /appdata/web/
+# ==========================================
+# Install Dependencies
+# ==========================================
+# Copy package files first for better layer caching
+COPY --chown=appuser web/package.json web/yarn.lock ./web/
 WORKDIR /appdata/web
-RUN yarn install && yarn cache clean
+RUN yarn install --frozen-lockfile && yarn cache clean
 
-# Copy necessary files for codegen (CLI scripts now use only Node.js built-ins)
-COPY --chown=appuser cli /appdata/cli/
-COPY --chown=appuser web/src/games /appdata/web/src/games/
-COPY --chown=appuser web/tsconfig.json /appdata/web/
-
-# Run codegen to generate game index (only generates games, skip GraphQL/i18n for now)
+# ==========================================
+# Code Generation Phase
+# ==========================================
 WORKDIR /appdata
+
+# Copy CLI scripts for code generation (uses only Node.js built-ins)
+COPY --chown=appuser cli ./cli/
+
+# Copy game sources and config needed for game index generation
+COPY --chown=appuser web/src/games ./web/src/games/
+COPY --chown=appuser web/tsconfig.json ./web/
+
+# Generate game index
 RUN node -e "import('./cli/codegen/genGames.js').then(m => m.genGames())"
 
+# ==========================================
+# GraphQL Code Generation
+# ==========================================
 # Copy files needed for GraphQL codegen
-COPY --chown=appuser web/codegen.ts /appdata/web/
-COPY --chown=appuser common/gql /appdata/common/gql
+COPY --chown=appuser web/codegen.ts ./web/
+COPY --chown=appuser common/gql ./common/gql
 
-# Copy server files and config needed for i18n:copy script
-COPY --chown=appuser web/server /appdata/web/server
-COPY --chown=appuser web/tsconfig.server.json /appdata/web/
-
-# Run GraphQL codegen from web directory where node_modules binaries are available
+# Run GraphQL codegen
 WORKDIR /appdata/web
 RUN yarn run apollo:codegen
 
-# Copy remaining web configuration files
-COPY --chown=appuser web/webpack.server.config.js /appdata/web/
+# ==========================================
+# Server Build Phase
+# ==========================================
+# Copy server files and configuration
+COPY --chown=appuser web/server ./server/
+COPY --chown=appuser web/tsconfig.server.json ./
+COPY --chown=appuser web/webpack.server.config.js ./
 
-# Copy common files (previously from fbg-common image)
+# Copy common files needed for server build
 COPY --chown=appuser common/gql /appdata/common/gql
 COPY --chown=appuser common/internal /appdata/internal
 
 # Build server
-COPY --chown=appuser web/src /appdata/web/src
-COPY --chown=appuser web/server /appdata/web/server
-WORKDIR /appdata/web
+COPY --chown=appuser web/src ./src/
 RUN yarn run build:server
 
-# Build website
-ARG GIT_REV
-COPY --chown=appuser web/.babelrc web/next.config.js web/next-i18next.config.js /appdata/web/
-COPY --chown=appuser web/public /appdata/web/public/
-COPY --chown=appuser web/.storybook /appdata/web/.storybook/
-COPY --chown=appuser web/docs /appdata/web/docs/
+# ==========================================
+# Web Build Phase
+# ==========================================
+# Copy web configuration files
+COPY --chown=appuser web/.babelrc \
+                      web/next.config.js \
+                      web/next-i18next.config.js \
+                      web/.storybook \
+                      ./
 
-# Run i18n:copy after public directory exists
+# Copy public assets and documentation
+COPY --chown=appuser web/public ./public/
+COPY --chown=appuser web/docs ./docs/
+
+# Run i18n sync after public directory exists
 RUN yarn run i18n:copy
 
+# Build the Next.js application
+ARG GIT_REV
 RUN yarn run build
 
-# Final production image
+# ==========================================
+# Production Stage - Minimal runtime image
+# ==========================================
 FROM node:24.12.0-alpine
+
+# Install bash for docker_run.sh script
 RUN apk add --no-cache bash
-RUN addgroup -g 938 appuser && adduser -h /appdata -S -u 997 -G appuser appuser && rm /bin/su
+
+# Create non-root user for security
+RUN addgroup -g 938 appuser && \
+    adduser -h /appdata -S -u 997 -G appuser appuser && \
+    rm /bin/su
+
 USER appuser
 WORKDIR /appdata
 
-# Copy package files and pre-built node_modules from builder (avoids rebuilding native modules)
-COPY --chown=appuser web/package.json /appdata/
-COPY --chown=appuser --from=builder /appdata/web/node_modules /appdata/node_modules/
+# Copy package files and install production-only dependencies
+COPY --chown=appuser web/package.json ./
+RUN yarn install --production --frozen-lockfile && yarn cache clean
 
-COPY --chown=appuser web/docker_run.sh /appdata/
-COPY --chown=appuser --from=builder /appdata/web/public /appdata/public
-COPY --chown=appuser --from=builder /appdata/web/.next /appdata/.next
-COPY --chown=appuser --from=builder /appdata/web/server /appdata/server
+# Copy startup script
+COPY --chown=appuser web/docker_run.sh ./
 
-# Internal configs for FreeBoardGames.org
-COPY --chown=appuser --from=builder /appdata/internal /internal
-COPY --chown=appuser --from=builder /appdata/common /common
+# Copy built assets from builder stage
+COPY --chown=appuser --from=builder /appdata/web/public ./public/
+COPY --chown=appuser --from=builder /appdata/web/.next ./.next/
+COPY --chown=appuser --from=builder /appdata/web/server ./server/
 
-# Run
-CMD ./docker_run.sh
+# Copy common files needed at runtime
+COPY --chown=appuser --from=builder /appdata/internal /internal/
+COPY --chown=appuser --from=builder /appdata/common /common/
+
+# Expose application ports (3000 for web, 8001 for bgio)
+EXPOSE 3000 8001
+
+# Start the application (docker_run.sh handles WEB vs BGIO based on SERVER_TYPE env var)
+CMD ["./docker_run.sh"]
