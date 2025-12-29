@@ -82,8 +82,8 @@ function SearchBox({ onInputChange, ...props }: Props & HTMLAttributes<HTMLDivEl
         sx={{
           color: 'common.black',
           '& .MuiOutlinedInput-input': {
-            padding: (theme) => theme.spacing(1, 1, 1, 0),
-            paddingLeft: (theme) => `calc(1em + ${theme.spacing(4)})`,
+            padding: '8.5px 14px',
+            paddingLeft: 'calc(1em + 32px)',
             transition: (theme) => theme.transitions.create('width'),
             width: '100%',
             '@media (min-width: 900px)': {
