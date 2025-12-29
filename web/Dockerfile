@@ -21,6 +21,9 @@ RUN addgroup -g 938 appuser && \
     adduser -h /appdata -S -u 997 -G appuser appuser && \
     rm /bin/su
 
+# Compute git hash for versioning (fallback to 'unknown' if git not available)
+RUN git rev-parse --short HEAD > /tmp/git_rev 2>/dev/null || echo "unknown" > /tmp/git_rev
+
 USER appuser
 WORKDIR /appdata
 
@@ -108,6 +111,9 @@ RUN addgroup -g 938 appuser && \
     adduser -h /appdata -S -u 997 -G appuser appuser && \
     rm /bin/su
 
+# Copy git revision from builder stage
+COPY --from=builder /tmp/git_rev /tmp/git_rev
+
 USER appuser
 WORKDIR /appdata
 
@@ -117,6 +123,10 @@ RUN yarn install --production --frozen-lockfile && yarn cache clean
 
 # Copy startup script
 COPY --chown=appuser web/docker_run.sh ./
+
+# Copy Next.js and i18n configuration files needed at runtime
+COPY --chown=appuser --from=builder /appdata/web/next.config.js ./
+COPY --chown=appuser --from=builder /appdata/web/next-i18next.config.js ./
 
 # Copy built assets from builder stage
 COPY --chown=appuser --from=builder /appdata/web/public ./public/

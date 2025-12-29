@@ -37,6 +37,15 @@ function LanguageSelect() {
           '& .MuiSelect-icon': {
             fill: 'white',
           },
+          '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          },
         }}
       >
         <MenuItem value="en">English</MenuItem>
