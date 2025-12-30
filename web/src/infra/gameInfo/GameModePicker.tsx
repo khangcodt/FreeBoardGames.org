@@ -12,6 +12,7 @@ import { compose } from 'recompose';
 import Router from 'next/router';
 import { withTranslation, WithTranslation } from 'infra/i18n';
 import { room } from 'infra/navigation';
+import { isUnauthorizedApolloError } from 'infra/common/services/isUnauthorized';
 
 interface IGameModePickerInnerProps extends Pick<WithTranslation, 't' | 'i18n'> {
   user: ReduxUserState;
@@ -84,7 +85,13 @@ export class GameModePickerInternal extends React.Component<IGameModePickerProps
         // we use .replace instead of .push so that the browser back button works correctly
         Router.replace(room(response.newRoom.roomId)(i18n.language));
       },
-      () => {
+      (err) => {
+        if (isUnauthorizedApolloError(err)) {
+          // Token is stale (or missing) -> prompt for nickname again.
+          // LobbyService.catchUnauthorizedGql should have invalidated auth + synced redux.
+          this.setState({ onlinePlayRequested: numPlayers, playButtonDisabled: false, playButtonError: false });
+          return;
+        }
         this.setState({ playButtonError: true, playButtonDisabled: false });
       },
     );

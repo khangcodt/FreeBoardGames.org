@@ -219,6 +219,11 @@ export type ChatMutatedSubscriptionVariables = Exact<{
 
 export type ChatMutatedSubscription = { __typename?: 'Subscription', chatMutated: { __typename?: 'Message', userId: number, userNickname: string, isoTimestamp: string, message: string } };
 
+export type ValidateTokenQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ValidateTokenQuery = { __typename?: 'Query', lobby: { __typename?: 'Lobby', rooms: Array<{ __typename?: 'Room', id?: string | null }> } };
+
 export type NewUserMutationVariables = Exact<{
   user: NewUserInput;
 }>;

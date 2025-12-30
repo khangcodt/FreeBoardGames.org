@@ -21,6 +21,7 @@ import Head from 'next/head';
 import React from 'react';
 import { Provider } from 'react-redux';
 import createEmotionCache from 'infra/common/components/theme/createEmotionCache';
+import { isUnauthorizedApolloError } from 'infra/common/services/isUnauthorized';
 
 const SENTRY_DSN = 'https://5957292e58cf4d2fbb781910e7b26b1f@o397015.ingest.sentry.io/5251165';
 
@@ -47,22 +48,18 @@ const isMainDomain =
 
 // Global error handler to clear auth tokens on 401 errors
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.forEach((error) => {
-      const status = (error?.extensions?.exception as any)?.status;
-      if (status === 401) {
-        // Clear invalid tokens
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('fbgUserToken2');
-          localStorage.removeItem('fbgNickname2');
-          console.log('Authentication expired. Please enter your nickname again.');
-        }
-      }
-    });
+  // Clear invalid tokens on auth failures.
+  // Note: Many gameplay flows use LobbyService which has its own ApolloClient,
+  // so it has its own auth invalidation. This is still useful for app-wide Apollo usage.
+  if (isUnauthorizedApolloError({ graphQLErrors, networkError } as any)) {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('fbgUserToken2');
+      localStorage.removeItem('fbgNickname2');
+      console.log('Authentication expired. Please enter your nickname again.');
+    }
   }
-  if (networkError) {
-    console.log(`[Network error]: ${networkError}`);
-  }
+
+  if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
 // SSR makes this error - use the NEW graphql-ws protocol

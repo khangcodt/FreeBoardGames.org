@@ -18,6 +18,7 @@ import { RemoveUserFromRoom, RemoveUserFromRoomVariables } from 'gqlTypes/Remove
 import { MoveUserUp, MoveUserUpVariables } from 'gqlTypes/MoveUserUp';
 import { ShuffleUsers, ShuffleUsersVariables } from 'gqlTypes/ShuffleUsers';
 import { UpdateRoomInput } from 'gqlTypes/globalTypes';
+import { isUnauthorizedApolloError } from './isUnauthorized';
 
 const FBG_NICKNAME_KEY = 'fbgNickname2';
 const FBG_USER_TOKEN_KEY = 'fbgUserToken2';
@@ -28,7 +29,7 @@ const httpLink = createHttpLink({
 
 export class LobbyService {
   private static catchUnauthorizedGql = (dispatch: Dispatch<SyncUserAction>) => (e: ApolloError) => {
-    if (e.graphQLErrors.find((error) => error.extensions.exception.status === 401)) {
+    if (isUnauthorizedApolloError(e)) {
       // invalidate the user's auth and adjust our store accordingly:
       LobbyService.invalidateUserAuth();
       dispatch(LobbyService.getSyncUserAction());

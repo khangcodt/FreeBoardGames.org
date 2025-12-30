@@ -11,6 +11,7 @@ import getMessagePage from 'infra/common/factories/MessagePage';
 import { room } from 'infra/navigation';
 import { compose } from 'recompose';
 import { IGameDef } from 'gamesShared/definitions/game';
+import { isUnauthorizedApolloError } from 'infra/common/services/isUnauthorized';
 
 interface NewRoomModalInnerProps extends WithTranslation {}
 
@@ -118,12 +119,7 @@ export class NewRoomModalInternal extends React.Component<
         Router.replace(room(response.newRoom.roomId)(i18n.language));
       },
       (error) => {
-        // Check if it's an authentication error (401)
-        const isAuthError = error?.graphQLErrors?.some(
-          (err: any) => err?.extensions?.exception?.status === 401
-        );
-        
-        if (isAuthError) {
+        if (isUnauthorizedApolloError(error)) {
           // LobbyService.catchUnauthorizedGql already invalidated the token
           // Close the modal so NicknameRequired component can show the prompt
           this.props.handleClickaway();
