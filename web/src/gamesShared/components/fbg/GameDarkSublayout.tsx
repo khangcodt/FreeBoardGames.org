@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import FbgLogo from 'infra/common/components/base/media/fbg_logo_white_48.png';
+const FbgLogo = require('infra/common/components/base/media/fbg_logo_white_48.png');
 import Button from '@mui/material/Button';
 import MoreVert from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
@@ -98,7 +98,7 @@ export class GameDarkSublayoutInternal extends React.Component<IGameDarkSublayou
         >
           <Link href={() => home()}>
             <span style={{ textDecoration: 'none', display: 'flex', cursor: 'pointer' }}>
-              <img src={FbgLogo.src} alt="FreeBoardGames.org" style={{ paddingRight: '16px' }} />
+              <img src={FbgLogo} alt="FreeBoardGames.org" style={{ paddingRight: '16px' }} />
               {fbgTopLeftText}
             </span>
           </Link>

@@ -5,12 +5,13 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import FreeBoardGamesBar from 'infra/common/components/base/FreeBoardGamesBar';
 import { ReduxState, ReduxUserState } from 'infra/common/redux/definitions';
+import { SyncUserAction } from 'infra/common/redux/actions';
 import { compose } from 'recompose';
 import { WithTranslation, withTranslation } from 'infra/i18n';
 import { gql } from '@apollo/client';
 
 interface InnerProps extends WithTranslation {
-  dispatch: Dispatch;
+  dispatch: Dispatch<SyncUserAction>;
   user: ReduxUserState;
 }
 
@@ -99,11 +100,16 @@ export class NicknameRequired extends React.Component<InnerProps & OutterProps, 
     try {
       await LobbyService.newUser(nickname);
       this.props.dispatch(LobbyService.getSyncUserAction());
+      // Wait for Redux state to propagate before calling onSuccess
+      // This ensures user.loggedIn is updated before the callback executes
+      if (this.props.onSuccess) {
+        await new Promise(resolve => setTimeout(resolve, 0));
+        this.props.onSuccess();
+      }
     } catch (e) {
       const errorText = e.response?.body?.message || this.props.t('unknown_error');
       this.setState({ errorText });
     }
-    if (this.props.onSuccess) this.props.onSuccess();
   };
 }
 
