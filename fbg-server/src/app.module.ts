@@ -40,7 +40,17 @@ const forceDbSync = process.env.FORCE_DB_SYNC === 'true';
       autoSchemaFile: join(process.cwd(), '../common/gql/schema.gql'),
       context: ({ req }) => ({ req }),
       subscriptions: {
-        'graphql-ws': true,
+        'graphql-ws': {
+          onConnect: (context: any) => {
+            const { connectionParams, extra } = context;
+            // Extract authorization from connectionParams and add to request-like object
+            if (connectionParams?.authorization) {
+              extra.request = extra.request || {};
+              extra.request.headers = extra.request.headers || {};
+              extra.request.headers.authorization = connectionParams.authorization;
+            }
+          },
+        },
       },
     }),
     UsersModule,

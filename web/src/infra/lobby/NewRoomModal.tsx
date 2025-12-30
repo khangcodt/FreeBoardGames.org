@@ -117,8 +117,20 @@ export class NewRoomModalInternal extends React.Component<
         // we use .replace instead of .push so that the browser back button works correctly
         Router.replace(room(response.newRoom.roomId)(i18n.language));
       },
-      () => {
-        this.setState({ loading: false, error: true });
+      (error) => {
+        // Check if it's an authentication error (401)
+        const isAuthError = error?.graphQLErrors?.some(
+          (err: any) => err?.extensions?.exception?.status === 401
+        );
+        
+        if (isAuthError) {
+          // LobbyService.catchUnauthorizedGql already invalidated the token
+          // Close the modal so NicknameRequired component can show the prompt
+          this.props.handleClickaway();
+        } else {
+          // For other errors, show the generic error message
+          this.setState({ loading: false, error: true });
+        }
       },
     );
   };

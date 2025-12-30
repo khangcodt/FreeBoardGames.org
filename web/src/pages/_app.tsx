@@ -2,9 +2,13 @@
 
 import { ApolloClient, InMemoryCache, split } from '@apollo/client';
 import { createHttpLink } from '@apollo/client/link/http';
-import { WebSocketLink } from '@apollo/client/link/ws';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { ApolloProvider } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import Cookies from 'js-cookie';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import * as Sentry from '@sentry/browser';
 import { ThemeProvider } from 'infra/common';
@@ -24,19 +28,56 @@ const httpLink = createHttpLink({
   uri: AddressHelper.getGraphQLServerAddress(),
 });
 
+// Add authentication to HTTP requests
+const authLink = setContext((_, { headers }) => {
+  // Get the authentication token from local storage if it exists
+  const token = typeof window !== 'undefined' ? localStorage.getItem('fbgUserToken2') : null;
+  // Return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+      'CSRF-Token': typeof window !== 'undefined' ? Cookies.get('XSRF-TOKEN') : '',
+    }
+  }
+});
+
 const isMainDomain =
   typeof window !== 'undefined' && window.location.hostname.toLowerCase() === 'www.freeboardgames.org';
 
-// SSR makes this error
+// Global error handler to clear auth tokens on 401 errors
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.forEach((error) => {
+      const status = (error?.extensions?.exception as any)?.status;
+      if (status === 401) {
+        // Clear invalid tokens
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('fbgUserToken2');
+          localStorage.removeItem('fbgNickname2');
+          console.log('Authentication expired. Please enter your nickname again.');
+        }
+      }
+    });
+  }
+  if (networkError) {
+    console.log(`[Network error]: ${networkError}`);
+  }
+});
+
+// SSR makes this error - use the NEW graphql-ws protocol
 const wsLink = process.browser
-  ? new WebSocketLink({
-      uri: AddressHelper.getWSServerAddress(),
-      options: {
-        timeout: 3000,
-        reconnect: true,
-        lazy: true,
-      },
-    })
+  ? new GraphQLWsLink(
+      createClient({
+        url: AddressHelper.getWSServerAddress(),
+        connectionParams: () => {
+          const token = localStorage.getItem('fbgUserToken2');
+          return {
+            authorization: token ? `Bearer ${token}` : '',
+          };
+        },
+      })
+    )
   : undefined;
 
 const link = wsLink
@@ -46,9 +87,9 @@ const link = wsLink
         return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
       },
       wsLink,
-      httpLink,
+      errorLink.concat(authLink.concat(httpLink)),
     )
-  : httpLink;
+  : errorLink.concat(authLink.concat(httpLink));
 
 const client = new ApolloClient({
   link,

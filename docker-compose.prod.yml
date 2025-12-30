@@ -100,10 +100,14 @@ services:
       dockerfile: fbg-server/Dockerfile
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER:-fbg}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-freeboardgames}
+      POSTGRES_URL: postgres://${POSTGRES_USER:-fbg}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-freeboardgames}
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      FBG_REDIS_HOST: redis
+      FBG_REDIS_PORT: 6379
       JWT_SECRET: ${JWT_SECRET}
       NODE_ENV: production
+      FORCE_DB_SYNC: "${FORCE_DB_SYNC:-false}"
     depends_on:
       postgres:
         condition: service_healthy

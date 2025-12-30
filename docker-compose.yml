@@ -52,6 +52,7 @@ services:
       FBG_REDIS_PORT: 6379
       JWT_SECRET: ${JWT_SECRET:-change-this-secret-in-production}
       NODE_ENV: development
+      FORCE_DB_SYNC: "true"
     ports:
       - "127.0.0.1:3001:3001"
     depends_on:

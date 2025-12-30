@@ -7,6 +7,7 @@ import FreeBoardGamesBar from 'infra/common/components/base/FreeBoardGamesBar';
 import { ReduxState, ReduxUserState } from 'infra/common/redux/definitions';
 import { compose } from 'recompose';
 import { WithTranslation, withTranslation } from 'infra/i18n';
+import { gql } from '@apollo/client';
 
 interface InnerProps extends WithTranslation {
   dispatch: Dispatch;
@@ -29,7 +30,42 @@ export class NicknameRequired extends React.Component<InnerProps & OutterProps, 
   state = { errorText: undefined };
 
   async componentDidMount() {
-    this.props.dispatch(LobbyService.getSyncUserAction());
+    // Check if user has tokens in localStorage
+    const hasTokens = LobbyService.getUserToken() && LobbyService.getNickname();
+    
+    if (hasTokens) {
+      // Validate the token by making a test query
+      try {
+        await this._validateToken();
+        // Token is valid, sync user state
+        this.props.dispatch(LobbyService.getSyncUserAction());
+      } catch (error) {
+        // Token is invalid, clear it and show nickname prompt
+        console.log('Invalid authentication token detected. Clearing localStorage.');
+        LobbyService.invalidateUserAuth();
+        this.props.dispatch(LobbyService.getSyncUserAction());
+      }
+    } else {
+      // No tokens, just sync the state
+      this.props.dispatch(LobbyService.getSyncUserAction());
+    }
+  }
+
+  async _validateToken() {
+    // Make a lightweight GraphQL query to validate the token
+    const client = LobbyService.getClient();
+    await client.query({
+      query: gql`
+        query ValidateToken {
+          lobby {
+            rooms {
+              id
+            }
+          }
+        }
+      `,
+      fetchPolicy: 'network-only', // Don't use cache, always hit the server
+    });
   }
 
   render() {
