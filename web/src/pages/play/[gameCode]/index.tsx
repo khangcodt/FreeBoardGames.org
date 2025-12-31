@@ -32,6 +32,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     'GameCardWithOverlay',
     'OccupancySelect',
     'NicknameRequired',
+    'NicknamePrompt',
     'About', // Used by GameInstructionsVideo
     gameNamespace,
   ];
