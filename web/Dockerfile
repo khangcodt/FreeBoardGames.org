@@ -33,7 +33,8 @@ WORKDIR /appdata
 # Copy package files first for better layer caching
 COPY --chown=appuser web/package.json web/yarn.lock ./web/
 WORKDIR /appdata/web
-RUN yarn install --frozen-lockfile && yarn cache clean
+# Network timeout is in milliseconds; 120000 ms = 2 minutes
+RUN yarn install --frozen-lockfile --network-timeout 120000 && yarn cache clean
 
 # ==========================================
 # Code Generation Phase
@@ -119,7 +120,8 @@ WORKDIR /appdata
 
 # Copy package files and install production-only dependencies
 COPY --chown=appuser web/package.json ./
-RUN yarn install --production --frozen-lockfile && yarn cache clean
+# Network timeout is in milliseconds; 120000 ms = 2 minutes
+RUN yarn install --production --network-timeout 120000 --frozen-lockfile && yarn cache clean
 
 # Copy startup script
 COPY --chown=appuser web/docker_run.sh ./

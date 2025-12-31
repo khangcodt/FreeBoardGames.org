@@ -16,7 +16,8 @@ WORKDIR /appdata
 
 # Copy package files first for better layer caching
 COPY --chown=appuser fbg-server/package.json fbg-server/yarn.lock ./
-RUN yarn install --frozen-lockfile && yarn cache clean
+# Network timeout is in milliseconds; 120000 ms = 2 minutes
+RUN yarn install --frozen-lockfile --network-timeout 120000 && yarn cache clean
 
 # Copy common files needed for build
 COPY --chown=appuser common/gql /common/
@@ -49,7 +50,8 @@ WORKDIR /appdata
 
 # Copy package files and install production-only dependencies
 COPY --chown=appuser fbg-server/package.json fbg-server/yarn.lock ./
-RUN yarn install --production --frozen-lockfile && yarn cache clean
+# Network timeout is in milliseconds; 120000 ms = 2 minutes
+RUN yarn install --frozen-lockfile --network-timeout 120000 && yarn cache clean
 
 # Copy built application from builder
 COPY --chown=appuser --from=builder /appdata/dist ./dist/
