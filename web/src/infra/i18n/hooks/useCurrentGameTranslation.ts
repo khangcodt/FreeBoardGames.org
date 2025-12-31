@@ -6,7 +6,10 @@ export const useCurrentGameTranslation = () => {
   const { game } = useCurrentGame();
   const namespace = game?.code && getGameCodeNamespace(game?.code);
   
-  const { t } = useTranslation(namespace);
+  // Use the ready flag to ensure translations are loaded
+  const { t, ready } = useTranslation(namespace || 'common', { 
+    useSuspense: false 
+  });
 
-  return { translate: t, namespace };
+  return { translate: t, namespace, ready };
 };

@@ -53,6 +53,8 @@ services:
       JWT_SECRET: ${JWT_SECRET:-change-this-secret-in-production}
       NODE_ENV: development
       FORCE_DB_SYNC: "true"
+      BGIO_PRIVATE_SERVERS: http://bgio:8001
+      BGIO_PUBLIC_SERVERS: http://localhost:8001
     ports:
       - "127.0.0.1:3001:3001"
     depends_on:
