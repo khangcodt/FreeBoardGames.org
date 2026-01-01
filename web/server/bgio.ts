@@ -46,6 +46,12 @@ const startServer = async () => {
   const server = Server({ games, db, origins, transport: getTransport() });
   server.app.use(noCache({ global: true }));
   server.app.use(cors());
+  
+  // Add health check endpoint
+  server.router.get('/healthz', (ctx) => {
+    ctx.body = 'OK';
+  });
+  
   server.run(PORT);
 };
 

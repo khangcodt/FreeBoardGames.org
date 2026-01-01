@@ -75,6 +75,11 @@ app
       res.sendFile(filePath, { root: process.cwd() });
     });
 
+    server.get('/healthz', (req, res) => {
+      // Simple health check endpoint - bypasses CSRF protection
+      res.status(200).send('OK');
+    });
+
     server.get('/blog*', (req, res) => {
       res.redirect(301, '/docs');
     });

@@ -32,4 +32,10 @@ export class HealthzController {
     await this.httpService.post(`http://localhost:${PORT}/graphql`, postData, { timeout: 5e3 }).toPromise();
     return 'OK';
   }
+
+  @Get('live')
+  async liveness(): Promise<string> {
+    // Simple liveness check - just returns OK without any external calls
+    return 'OK';
+  }
 }
