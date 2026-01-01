@@ -39,7 +39,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.11",
-    "@boardgame.io/redis-pubsub": "^0.0.1",
     "@emotion/react": "^11.14.0",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.14.0",
@@ -97,7 +96,6 @@
     "react-redux": "^9.2.0",
     "react-safe-context": "^1.1.1",
     "recompose": "^0.30.0",
-    "redis": "^4.7.0",
     "redux": "^5.0.1",
     "shortid": "^2.2.16",
     "shuffle-array": "^1.0.1",

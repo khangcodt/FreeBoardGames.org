@@ -5,8 +5,6 @@
 import { GAMES_LIST } from 'games';
 import noCache from 'koa-no-cache';
 const cors = require('@koa/cors'); // tslint:disable-line
-import { createClient } from 'redis';
-import { RedisPubSub } from '@boardgame.io/redis-pubsub';
 import { Server, SocketIO } from 'boardgame.io/server';
 import { PostgresStore } from 'bgio-postgres';
 
@@ -21,28 +19,11 @@ function getDb() {
 }
 
 async function getTransport(origins: string[]) {
-  const host = process.env.FBG_REDIS_HOST;
-  const port = process.env.FBG_REDIS_PORT;
-  const password = process.env.FBG_REDIS_PASSWORD;
-  if (!host || !port || !password) {
-    return;
-  }
-  const pub = createClient({
-    socket: { host, port: parseInt(port, 10) },
-    password,
-  });
-  const sub = createClient({
-    socket: { host, port: parseInt(port, 10) },
-    password,
-  });
-  await pub.connect();
-  await sub.connect();
-  
+  // Socket.IO transport without Redis PubSub (single-instance deployment)
   // Fix for boardgame.io bug: boardgame.io uses 'origins' but Socket.IO expects 'origin'
   // We override the socketOpts to provide the correct CORS configuration
   // Socket.IO v4+ requires explicit CORS configuration with all necessary options
   return new SocketIO({ 
-    pubSub: new RedisPubSub(pub, sub),
     socketOpts: {
       cors: {
         origin: origins,

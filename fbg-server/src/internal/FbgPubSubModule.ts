@@ -1,7 +1,4 @@
 import { PubSub } from "graphql-subscriptions";
-import { IS_PROD } from "./util";
-import { RedisPubSub } from 'graphql-redis-subscriptions';
-import Redis from 'ioredis';
 import { Module } from '@nestjs/common';
 
 export const FBG_PUB_SUB = 'FbgPubSub';
@@ -11,19 +8,9 @@ export const FBG_PUB_SUB = 'FbgPubSub';
     {
       provide: FBG_PUB_SUB,
       useFactory: () => {
-        if (!IS_PROD) {
-          return new PubSub();
-        }
-        const options = {
-          host: process.env.FBG_REDIS_HOST,
-          port: parseInt(process.env.FBG_REDIS_PORT, 10),
-          password: process.env.FBG_REDIS_PASSWORD,
-        };
-
-        return new RedisPubSub({
-          publisher: new Redis(options) as any,
-          subscriber: new Redis(options) as any,
-        });
+        // Use in-memory PubSub for single-instance deployment
+        // For multi-instance deployments, a distributed pub/sub system would be needed
+        return new PubSub();
       }
     },
   ],
