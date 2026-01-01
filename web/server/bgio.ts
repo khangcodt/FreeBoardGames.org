@@ -71,7 +71,8 @@ const startServer = async () => {
   // Important: Due to a boardgame.io bug where it uses 'origins' instead of 'origin'
   // for Socket.IO CORS, we configure it manually via socketOpts.
   // We also need to manually add Koa CORS middleware for HTTP requests.
-  const server = Server({ games, db, transport });
+  // boardgame.io v0.45+ requires the origins parameter to be set explicitly
+  const server = Server({ games, db, transport, origins });
   
   // Configure CORS for regular HTTP requests (Koa)
   server.app.use(cors({
