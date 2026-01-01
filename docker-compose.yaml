@@ -83,6 +83,12 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
     restart: unless-stopped
     deploy:
       resources:
@@ -114,7 +120,14 @@ services:
     ports:
       - "${WEB_PORT:-3000}:3000"
     depends_on:
-      - fbg-server
+      fbg-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
     restart: unless-stopped
     deploy:
       resources:
@@ -140,6 +153,12 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
     ports:
       - "${BGIO_PORT:-8001}:8001"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8001"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
     restart: unless-stopped
     deploy:
       resources:
