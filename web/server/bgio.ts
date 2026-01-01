@@ -44,11 +44,23 @@ const startServer = async () => {
   const configs = Promise.all(GAMES_LIST.map((gameDef) => gameDef.config()));
   const games = (await configs).map((config) => config.default.bgioGame);
   const db = getDb();
-  const origins = process.env.BGIO_PUBLIC_SERVERS || 'http://localhost';
+  
+  // CORS configuration - allow the web app to connect
+  // BGIO_PUBLIC_SERVERS contains the web app's public URL(s)
+  const originsStr = process.env.BGIO_PUBLIC_SERVERS || 'http://localhost:3000';
+  const origins = originsStr.split(',').map(o => o.trim());
+  
+  console.log('[BGIO] Configuring CORS for origins:', origins);
+  
   const transport = await getTransport();
   const server = Server({ games, db, origins, transport });
   server.app.use(noCache({ global: true }));
-  server.app.use(cors());
+  
+  // Configure CORS for HTTP requests
+  server.app.use(cors({
+    origin: origins,
+    credentials: true,
+  }));
   
   // Add health check endpoint
   server.router.get('/healthz', (ctx) => {
