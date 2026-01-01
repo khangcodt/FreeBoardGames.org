@@ -40,12 +40,15 @@ async function getTransport(origins: string[]) {
   
   // Fix for boardgame.io bug: boardgame.io uses 'origins' but Socket.IO expects 'origin'
   // We override the socketOpts to provide the correct CORS configuration
+  // Socket.IO v4+ requires explicit CORS configuration with all necessary options
   return new SocketIO({ 
     pubSub: new RedisPubSub(pub, sub),
     socketOpts: {
       cors: {
         origin: origins,
+        methods: ['GET', 'POST'],
         credentials: true,
+        allowedHeaders: ['Content-Type'],
       }
     } as any
   });
@@ -65,10 +68,25 @@ const startServer = async () => {
   
   const transport = await getTransport(origins);
   
-  // Important: The 'origins' parameter in Server() configures both Koa CORS 
-  // and Socket.IO CORS. However, due to a boardgame.io bug, we also pass
-  // the origins to getTransport() to configure Socket.IO CORS directly.
-  const server = Server({ games, db, origins, transport });
+  // Important: Due to a boardgame.io bug where it uses 'origins' instead of 'origin'
+  // for Socket.IO CORS, we configure it manually via socketOpts.
+  // We also need to manually add Koa CORS middleware for HTTP requests.
+  const server = Server({ games, db, transport });
+  
+  // Configure CORS for regular HTTP requests (Koa)
+  server.app.use(cors({
+    origin: (ctx) => {
+      const requestOrigin = ctx.get('Origin');
+      if (origins.includes(requestOrigin)) {
+        return requestOrigin;
+      }
+      return origins[0]; // Default to first origin
+    },
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+  }));
+  
   server.app.use(noCache({ global: true }));
   
   // Add health check endpoint
