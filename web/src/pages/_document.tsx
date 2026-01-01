@@ -11,9 +11,11 @@ export default class MyDocument extends Document {
     // Inject runtime configuration from server-side environment variables
     // This makes them available to the client without being baked into the build
     const runtimeConfig = {
-      // FBG_BACKEND_TARGET is the internal server URL, but we need the public URL
-      // In Coolify, NEXT_PUBLIC_API_URL will be set to SERVICE_URL_FBG_SERVER at runtime
-      apiUrl: process.env.NEXT_PUBLIC_API_URL || process.env.FBG_BACKEND_TARGET || 'http://localhost:3001',
+      // FBG_API_URL is the public URL for client-side connections
+      // In Coolify, this will be set to SERVICE_URL_FBG_SERVER at runtime
+      // NOTE: We use FBG_API_URL (not NEXT_PUBLIC_*) because NEXT_PUBLIC_* vars
+      // are inlined at build time and cannot be changed at runtime
+      apiUrl: process.env.FBG_API_URL || process.env.FBG_BACKEND_TARGET || 'http://localhost:3001',
     };
 
     return (
