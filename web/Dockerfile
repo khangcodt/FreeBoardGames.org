@@ -104,8 +104,8 @@ RUN yarn run build
 # ==========================================
 FROM node:24.12.0-alpine
 
-# Install bash for docker_run.sh script
-RUN apk add --no-cache bash
+# Install bash for docker_run.sh script and curl for health checks
+RUN apk add --no-cache bash curl
 
 # Create non-root user for security
 RUN addgroup -g 938 appuser && \

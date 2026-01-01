@@ -37,8 +37,8 @@ RUN yarn run build
 # ==========================================
 FROM node:24.12.0-alpine
 
-# Install build dependencies for native modules (e.g., sqlite3)
-RUN apk add --no-cache python3 py3-setuptools make g++
+# Install build dependencies for native modules (e.g., sqlite3) and curl for health checks
+RUN apk add --no-cache python3 py3-setuptools make g++ curl
 
 # Create non-root user for security
 RUN addgroup -g 938 appuser && \
