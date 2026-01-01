@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentInitialProps } from 'next/document';
-import getConfig from 'next/config';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from '../infra/common/components/theme/createEmotionCache';
 
@@ -78,13 +77,13 @@ MyDocument.getInitialProps = async (ctx: DocumentContext): Promise<MyDocumentPro
     />
   ));
 
-  // Get runtime config - this is evaluated at REQUEST TIME on the server
-  // publicRuntimeConfig is set in next.config.ts and reads environment variables
-  // when the server handles each request, not during the Docker build
-  const { publicRuntimeConfig } = getConfig();
+  // Get runtime config - read directly from process.env at REQUEST TIME
+  // This is executed on the Node.js server when handling each HTTP request,
+  // NOT during the Docker build phase. The Coolify environment variables
+  // (FBG_API_URL, FBG_WS_URL) are available in the running container's process.env
   const runtimeConfig = {
-    apiUrl: publicRuntimeConfig.FBG_API_URL,
-    wsUrl: publicRuntimeConfig.FBG_WS_URL,
+    apiUrl: process.env.FBG_API_URL || process.env.FBG_BACKEND_TARGET || 'http://localhost:3001',
+    wsUrl: process.env.FBG_WS_URL || 'http://localhost:8001',
   };
 
   return {
