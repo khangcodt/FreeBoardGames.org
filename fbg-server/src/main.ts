@@ -13,7 +13,15 @@ async function bootstrap() {
 
   setupLogging(app, 'fbg-server');
   app.use(cookieParser());
+  
+  // Configure CORS for both production and development
   if (IS_PROD) {
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()) || [];
+    app.enableCors({
+      origin: allowedOrigins.length > 0 ? allowedOrigins : true,
+      credentials: true,
+    });
+    
     const csrf = csurf({ cookie: true });
     const conditionalCSRF = function (req, res, next) {
       if (req.ip === "::ffff:127.0.0.1" || req.ip === "127.0.0.1") {

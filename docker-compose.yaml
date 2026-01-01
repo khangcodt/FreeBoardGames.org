@@ -114,6 +114,7 @@ services:
       # Internal server-side communication
       FBG_BACKEND_TARGET: http://fbg-server:3001
       # Public URL for client-side - uses Coolify variable if available
+      # This is used by AddressHelper for WebSocket connections
       NEXT_PUBLIC_API_URL: ${SERVICE_URL_FBG_SERVER:-http://localhost:3001}
       NEXT_PUBLIC_WS_URL: ${SERVICE_URL_BGIO:-http://localhost:8001}
       NODE_ENV: ${NODE_ENV:-development}
