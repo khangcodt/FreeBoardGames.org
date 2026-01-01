@@ -8,9 +8,23 @@ import createEmotionCache from '../infra/common/components/theme/createEmotionCa
 
 export default class MyDocument extends Document {
   render() {
+    // Inject runtime configuration from server-side environment variables
+    // This makes them available to the client without being baked into the build
+    const runtimeConfig = {
+      // FBG_BACKEND_TARGET is the internal server URL, but we need the public URL
+      // In Coolify, NEXT_PUBLIC_API_URL will be set to SERVICE_URL_FBG_SERVER at runtime
+      apiUrl: process.env.NEXT_PUBLIC_API_URL || process.env.FBG_BACKEND_TARGET || 'http://localhost:3001',
+    };
+
     return (
       <Html lang="en">
         <Head>
+          {/* Inject runtime configuration before any other scripts */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.__RUNTIME_CONFIG__ = ${JSON.stringify(runtimeConfig)};`,
+            }}
+          />
           <link rel="shortcut icon" type="image/x-icon" href="/static/icons/favicon.ico" />
           <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png" />

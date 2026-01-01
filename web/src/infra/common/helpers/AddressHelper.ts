@@ -1,3 +1,12 @@
+// Extend Window interface to include runtime config
+declare global {
+  interface Window {
+    __RUNTIME_CONFIG__?: {
+      apiUrl: string;
+    };
+  }
+}
+
 export default class AddressHelper {
   public static getGraphQLServerAddress() {
     return `/graphql`;
@@ -11,9 +20,9 @@ export default class AddressHelper {
     if (window.location.hostname === 'localhost') {
       return 'ws://localhost:3001/graphql';
     } else {
-      // Use the fbg-server URL from environment variable
-      // This is set via NEXT_PUBLIC_API_URL in docker-compose
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      // Use runtime configuration injected by _document.tsx
+      // This allows the URL to be set at runtime (in Coolify) rather than build time
+      const apiUrl = window.__RUNTIME_CONFIG__?.apiUrl;
       if (apiUrl) {
         // Convert http/https to ws/wss
         const wsUrl = apiUrl.replace(/^https?/, (match) => match === 'https' ? 'wss' : 'ws');
