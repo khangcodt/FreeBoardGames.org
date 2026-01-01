@@ -31,13 +31,13 @@ services:
 
   redis:
     image: redis:7-alpine
-    command: redis-server --appendonly yes
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-changeme}
     volumes:
       - redis_data:/data
     ports:
       - "${REDIS_PORT:-6379}:6379"
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-changeme}", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -65,8 +65,10 @@ services:
       POSTGRES_URL: postgres://${POSTGRES_USER:-fbg}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-freeboardgames}
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-changeme}
       FBG_REDIS_HOST: redis
       FBG_REDIS_PORT: 6379
+      FBG_REDIS_PASSWORD: ${REDIS_PASSWORD:-changeme}
       JWT_SECRET: ${JWT_SECRET:-change-this-secret-in-production}
       NODE_ENV: ${NODE_ENV:-development}
       FORCE_DB_SYNC: ${FORCE_DB_SYNC:-true}
