@@ -53,14 +53,11 @@ const startServer = async () => {
   console.log('[BGIO] Configuring CORS for origins:', origins);
   
   const transport = await getTransport();
+  
+  // Important: The 'origins' parameter in Server() configures both Koa CORS 
+  // and Socket.IO CORS. Remove manual CORS middleware to avoid conflicts.
   const server = Server({ games, db, origins, transport });
   server.app.use(noCache({ global: true }));
-  
-  // Configure CORS for HTTP requests
-  server.app.use(cors({
-    origin: origins,
-    credentials: true,
-  }));
   
   // Add health check endpoint
   server.router.get('/healthz', (ctx) => {
