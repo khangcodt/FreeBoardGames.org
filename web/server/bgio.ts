@@ -20,7 +20,7 @@ function getDb() {
   return new PostgresStore(pgUrl);
 }
 
-async function getTransport() {
+async function getTransport(origins: string[]) {
   const host = process.env.FBG_REDIS_HOST;
   const port = process.env.FBG_REDIS_PORT;
   const password = process.env.FBG_REDIS_PASSWORD;
@@ -37,7 +37,18 @@ async function getTransport() {
   });
   await pub.connect();
   await sub.connect();
-  return new SocketIO({ pubSub: new RedisPubSub(pub, sub) });
+  
+  // Fix for boardgame.io bug: boardgame.io uses 'origins' but Socket.IO expects 'origin'
+  // We override the socketOpts to provide the correct CORS configuration
+  return new SocketIO({ 
+    pubSub: new RedisPubSub(pub, sub),
+    socketOpts: {
+      cors: {
+        origin: origins,
+        credentials: true,
+      }
+    } as any
+  });
 }
 
 const startServer = async () => {
@@ -52,10 +63,11 @@ const startServer = async () => {
   
   console.log('[BGIO] Configuring CORS for origins:', origins);
   
-  const transport = await getTransport();
+  const transport = await getTransport(origins);
   
   // Important: The 'origins' parameter in Server() configures both Koa CORS 
-  // and Socket.IO CORS. Remove manual CORS middleware to avoid conflicts.
+  // and Socket.IO CORS. However, due to a boardgame.io bug, we also pass
+  // the origins to getTransport() to configure Socket.IO CORS directly.
   const server = Server({ games, db, origins, transport });
   server.app.use(noCache({ global: true }));
   
