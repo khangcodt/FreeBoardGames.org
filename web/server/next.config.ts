@@ -33,6 +33,13 @@ export default {
     // Skip ESLint during build (can run separately)
     ignoreDuringBuilds: true,
   },
+  // Public runtime config - evaluated at REQUEST TIME, not build time
+  // This allows Coolify environment variables to be used at runtime
+  publicRuntimeConfig: {
+    // These values are read from environment variables when the server receives a request
+    FBG_API_URL: process.env.FBG_API_URL || process.env.FBG_BACKEND_TARGET || 'http://localhost:3001',
+    FBG_WS_URL: process.env.FBG_WS_URL || 'http://localhost:8001',
+  },
   env: {
     CHANNEL,
     VERSION,

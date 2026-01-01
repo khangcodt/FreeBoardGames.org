@@ -3,20 +3,23 @@
 
 import * as React from 'react';
 import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentInitialProps } from 'next/document';
+import getConfig from 'next/config';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from '../infra/common/components/theme/createEmotionCache';
 
-export default class MyDocument extends Document {
+interface MyDocumentProps extends DocumentInitialProps {
+  emotionStyleTags: JSX.Element[];
+  runtimeConfig: {
+    apiUrl: string;
+    wsUrl: string;
+  };
+}
+
+export default class MyDocument extends Document<MyDocumentProps> {
   render() {
-    // Inject runtime configuration from server-side environment variables
-    // This makes them available to the client without being baked into the build
-    const runtimeConfig = {
-      // FBG_API_URL is the public URL for client-side connections
-      // In Coolify, this will be set to SERVICE_URL_FBG_SERVER at runtime
-      // NOTE: We use FBG_API_URL (not NEXT_PUBLIC_*) because NEXT_PUBLIC_* vars
-      // are inlined at build time and cannot be changed at runtime
-      apiUrl: process.env.FBG_API_URL || process.env.FBG_BACKEND_TARGET || 'http://localhost:3001',
-    };
+    // Runtime config is passed via props from getInitialProps
+    // This ensures it's evaluated at REQUEST TIME on the server, not at build time
+    const { runtimeConfig } = this.props;
 
     return (
       <Html lang="en">
@@ -46,7 +49,7 @@ export default class MyDocument extends Document {
   }
 }
 
-MyDocument.getInitialProps = async (ctx: DocumentContext): Promise<DocumentInitialProps & { emotionStyleTags: JSX.Element[] }> => {
+MyDocument.getInitialProps = async (ctx: DocumentContext): Promise<MyDocumentProps> => {
   const originalRenderPage = ctx.renderPage;
 
   // Create emotion cache for SSR
@@ -75,8 +78,18 @@ MyDocument.getInitialProps = async (ctx: DocumentContext): Promise<DocumentIniti
     />
   ));
 
+  // Get runtime config - this is evaluated at REQUEST TIME on the server
+  // publicRuntimeConfig is set in next.config.ts and reads environment variables
+  // when the server handles each request, not during the Docker build
+  const { publicRuntimeConfig } = getConfig();
+  const runtimeConfig = {
+    apiUrl: publicRuntimeConfig.FBG_API_URL,
+    wsUrl: publicRuntimeConfig.FBG_WS_URL,
+  };
+
   return {
     ...initialProps,
     emotionStyleTags,
+    runtimeConfig,
   };
 };
