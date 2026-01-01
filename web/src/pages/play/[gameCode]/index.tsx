@@ -1,24 +1,11 @@
 import GameInfo from 'infra/gameInfo/GameInfo';
-import { getAllGames, getGameCodeNamespace } from 'infra/game';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { getGameCodeNamespace } from 'infra/game';
+import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export default GameInfo;
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const games = getAllGames();
-  const paths = games.flatMap((game) => [
-    { params: { gameCode: game.code } },
-    ...Object.values(game.codes || {}).map((code) => ({ params: { gameCode: code } })),
-  ]);
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
   const gameCode = params?.gameCode as string;
   const gameNamespace = getGameCodeNamespace(gameCode);
 
