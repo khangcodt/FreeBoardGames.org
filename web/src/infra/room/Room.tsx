@@ -86,6 +86,10 @@ const Room: React.FC<InnerProps & OutterProps> = ({ t, router, user, dispatch, s
   const [editingName, setEditingName] = useState(false);
   const [changingGame, setChangingGame] = useState(false);
 
+  const _roomId = () => {
+    return router.query.roomID as string;
+  };
+
   const { data: subscriptionData } = useSubscription(ROOM_SUBSCRIPTION, {
     variables: { roomId: _roomId() }
   });
@@ -109,10 +113,6 @@ const Room: React.FC<InnerProps & OutterProps> = ({ t, router, user, dispatch, s
       }
     }
   }, [subscriptionData, roomMetadata]);
-
-  const _roomId = () => {
-    return router.query.roomID as string;
-  };
 
   const joinRoom = () => {
     LobbyService.joinRoom(dispatch, _roomId()).then(
