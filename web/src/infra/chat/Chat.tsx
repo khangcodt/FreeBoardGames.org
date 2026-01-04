@@ -1,6 +1,5 @@
-import React from 'react';
-import { gql } from '@apollo/client';
-import { Subscription } from '@apollo/client/react/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { gql, useSubscription } from '@apollo/client';
 import Message from './internal/Message';
 import ChatInput from './internal/ChatInput';
 import ChatMessageHistory from './internal/ChatMessageHistory';
@@ -56,149 +55,158 @@ export const CHAT_SUBSCRIPTION = gql`
   }
 `;
 
-class ChatInternal extends React.Component<ChatInnerProps & ChatOutterProps, ChatState> {
-  private messagesRef = React.createRef<HTMLDivElement>();
+const ChatInternal: React.FC<ChatInnerProps & ChatOutterProps> = ({ channelType, channelId, dispatch, t }) => {
+  const messagesRef = useRef<HTMLDivElement>(null);
+  const [messageHistory, setMessageHistory] = useState<Message[]>([INITIAL_MESSAGE(t)]);
+  const [isOpen, setIsOpen] = useState(!isMobile);
+  const [unseenMessages, setUnseenMessages] = useState(0);
 
-  state = {
-    messageHistory: [INITIAL_MESSAGE(this.props.t)],
-    isOpen: !isMobile,
-    unseenMessages: 0,
-  };
+  const { data: subscriptionData } = useSubscription(CHAT_SUBSCRIPTION, {
+    variables: { channelType, channelId }
+  });
 
-  render() {
-    const { channelType, channelId } = this.props;
-    return (
-      <Subscription subscription={CHAT_SUBSCRIPTION} variables={{ channelType, channelId }}>
-        {(resp) => {
-          const newMessage = resp.data?.chatMutated;
-          let messageHistory = this.state.messageHistory;
-          const lastMessage = messageHistory.slice(-1)[0];
-          if (newMessage && !this.isSameMessage(newMessage, lastMessage)) {
-            messageHistory = [...messageHistory, newMessage];
-            let unseenMessages = 0;
-            if (!this.state.isOpen) {
-              unseenMessages = this.state.unseenMessages + 1;
-            }
-            this.setState({ messageHistory, unseenMessages });
-          }
-          const button = this.renderButton();
-          const panel = this.renderPanel(messageHistory);
-          return (
-            <>
-              {button}
-              {panel}
-            </>
-          );
-        }}
-      </Subscription>
-    );
-  }
+  // Handle new messages from subscription
+  useEffect(() => {
+    const newMessage = subscriptionData?.chatMutated;
+    if (newMessage) {
+      setMessageHistory(prevHistory => {
+        const lastMessage = prevHistory[prevHistory.length - 1];
+        if (isSameMessage(newMessage, lastMessage)) {
+          return prevHistory;
+        }
+        const updatedHistory = [...prevHistory, newMessage];
 
-  componentWillUnmount() {
-    this.updateBodyRightMargin(true);
-    this.setState({ isOpen: false });
-  }
+        // Update unseen messages if panel is closed
+        if (!isOpen) {
+          setUnseenMessages(prev => prev + 1);
+        }
 
-  componentDidUpdate() {
-    this.scrollToBottom();
-  }
+        return updatedHistory;
+      });
+    }
+  }, [subscriptionData, isOpen]);
 
-  private renderPanel(messages: Message[]) {
-    this.updateBodyRightMargin();
-    if (!this.state.isOpen) {
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messageHistory]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      updateBodyRightMargin(true);
+    };
+  }, []);
+
+  // Update body margin when isOpen changes
+  useEffect(() => {
+    updateBodyRightMargin();
+  }, [isOpen]);
+
+  const renderPanel = (messages: Message[]) => {
+    if (!isOpen) {
       return null;
     }
     if (isMobile) {
       return (
-        <AlertLayer onClickaway={this._togglePanel}>
-          <Card className={css.MobileCard}>{this.renderInnerPanel(messages, false)}</Card>
+        <AlertLayer onClickaway={_togglePanel}>
+          <Card className={css.MobileCard}>{renderInnerPanel(messages, false)}</Card>
         </AlertLayer>
       );
     } else {
       return (
         <Paper elevation={4} className={css.DesktopPanelWrapper}>
-          {this.renderInnerPanel(messages, true)}
+          {renderInnerPanel(messages, true)}
         </Paper>
       );
     }
-  }
+  };
 
-  private renderInnerPanel(messages: Message[], isDesktop: boolean) {
+  const renderInnerPanel = (messages: Message[], isDesktop: boolean) => {
     let className = '';
-    let closeButton = this.renderMobileHeader();
+    let closeButton = renderMobileHeader();
     if (isDesktop) {
       className = css.DesktopInput;
     }
     return (
       <div className={css.InnerPanel}>
         {closeButton}
-        <div style={{ flex: '1', overflowY: 'auto' }} ref={this.messagesRef}>
+        <div style={{ flex: '1', overflowY: 'auto' }} ref={messagesRef}>
           <ChatMessageHistory messages={messages} />
         </div>
-        <ChatInput sendMessage={this._sendMessage} className={className} />
+        <ChatInput sendMessage={_sendMessage} className={className} />
       </div>
     );
-  }
+  };
 
-  private renderMobileHeader() {
+  const renderMobileHeader = () => {
     return (
       <div>
-        <IconButton aria-label="close" onClick={this._togglePanel} className={css.ChatClose}>
+        <IconButton aria-label="close" onClick={_togglePanel} className={css.ChatClose}>
           <CloseIcon />
         </IconButton>
         <Typography variant="h6" component="span" className={css.ChatTitle}>
-          {this.props.t('chat')}
+          {t('chat')}
         </Typography>
       </div>
     );
-  }
+  };
 
-  private renderButton() {
+  const renderButton = () => {
     return (
-      <IconButton aria-label="Toggle chat panel" onClick={this._togglePanel}>
-        <Badge badgeContent={this.state.unseenMessages} color="secondary">
+      <IconButton aria-label="Toggle chat panel" onClick={_togglePanel}>
+        <Badge badgeContent={unseenMessages} color="secondary">
           <ChatIcon style={{ color: 'white' }} />
         </Badge>
       </IconButton>
     );
-  }
+  };
 
-  private isSameMessage(m1?: Message, m2?: Message) {
+  const isSameMessage = (m1?: Message, m2?: Message) => {
     return m1?.message === m2?.message && m1?.userId === m2?.userId && m1?.isoTimestamp === m2?.isoTimestamp;
-  }
+  };
 
-  private updateBodyRightMargin(forceClose?: boolean) {
+  const updateBodyRightMargin = (forceClose?: boolean) => {
     let newPadding;
-    if (forceClose || typeof window === 'undefined' || !this.state.isOpen || detectIsMobile()) {
+    if (forceClose || typeof window === 'undefined' || !isOpen || detectIsMobile()) {
       newPadding = '0px';
     } else {
       newPadding = '250px';
     }
     document.getElementsByTagName('body')[0].style.marginRight = newPadding;
-  }
+  };
 
-  private scrollToBottom() {
-    const el = this.messagesRef.current;
+  const scrollToBottom = () => {
+    const el = messagesRef.current;
     if (!el) {
       return;
     }
     el.scrollTop = el.scrollHeight;
-  }
+  };
 
-  _sendMessage = (msg: string) => {
+  const _sendMessage = (msg: string) => {
     // TODO: Refactor this out of lobby service.
-    LobbyService.sendMessage(this.props.dispatch, this.props.channelType, this.props.channelId, msg);
+    LobbyService.sendMessage(dispatch, channelType, channelId, msg);
   };
 
-  _togglePanel = () => {
-    const isOpen = !this.state.isOpen;
-    let unseenMessages = this.state.unseenMessages;
-    if (isOpen) {
-      unseenMessages = 0;
+  const _togglePanel = () => {
+    const newIsOpen = !isOpen;
+    setIsOpen(newIsOpen);
+    if (newIsOpen) {
+      setUnseenMessages(0);
     }
-    this.setState({ isOpen, unseenMessages });
   };
-}
+
+  const button = renderButton();
+  const panel = renderPanel(messageHistory);
+
+  return (
+    <>
+      {button}
+      {panel}
+    </>
+  );
+};
 
 const enhance = compose<ChatInnerProps, ChatOutterProps>(withTranslation('Chat'));
 

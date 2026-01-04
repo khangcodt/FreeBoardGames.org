@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Carousel } from 'infra/common/components/carousel/Carousel';
 import { GameCardWithOverlay } from './GameCardWithOverlay';
-import { gql } from '@apollo/client';
+import { gql, useSubscription } from '@apollo/client';
 import { GetLobby, GetLobby_lobby } from 'gqlTypes/GetLobby';
 import { Typography, CircularProgress } from '@mui/material';
 import { getGroupedRoomsDisplay, orderCurrentGameFirst } from './LobbyUtil';
 import { NewRoomModal } from './NewRoomModal';
 import { LobbyService } from 'infra/common/services/LobbyService';
-import { Subscription } from '@apollo/client/react/components';
 import css from './LobbyCarousel.module.css';
 import { withTranslation, WithTranslation } from 'infra/i18n';
 import { getGameDefinition } from 'infra/game';
@@ -35,61 +34,26 @@ interface Props extends Pick<WithTranslation, 't'> {
   game?: IGameDef;
 }
 
-interface State {
-  showNewRoomModal: boolean;
-  loading: boolean;
-  error?: string;
-  lobby?: GetLobby_lobby;
-}
+const LobbyCarousel: React.FC<Props> = ({ t, game }) => {
+  const [showNewRoomModal, setShowNewRoomModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | undefined>();
+  const [lobby, setLobby] = useState<GetLobby_lobby | undefined>();
 
-class LobbyCarousel extends React.Component<Props, State> {
-  state: State = { showNewRoomModal: false, loading: true };
+  const { data: subscriptionData } = useSubscription(LOBBIES_SUBSCRIPTION);
 
-  componentDidMount() {
-    this._loadLobby();
-  }
+  useEffect(() => {
+    _loadLobby();
+  }, []);
 
-  hasNewRoomCard() {
-    return this.props.game && this.props.game.modes.map((modeInfo) => modeInfo.mode).includes(GameMode.OnlineFriend);
-  }
+  const hasNewRoomCard = () => {
+    return game && game.modes.map((modeInfo) => modeInfo.mode).includes(GameMode.OnlineFriend);
+  };
 
-  render() {
-    if (!this.hasNewRoomCard() && (this.state.loading || this.state.error)) {
-      return null;
-    }
-
-    return (
-      <Subscription subscription={LOBBIES_SUBSCRIPTION}>
-        {(resp) => {
-          const { t } = this.props;
-          const lobby = resp.data?.lobbyMutated || this.state.lobby;
-          if (!this.hasNewRoomCard() && lobby.rooms.length === 0) {
-            return null;
-          }
-          return (
-            <div className={css.wrapper}>
-              {this.state.showNewRoomModal && (
-                <NewRoomModal game={this.props.game} handleClickaway={this._toggleNewRoomModal} />
-              )}
-              <div className={css.title}>
-                <Typography display="inline" component="h2" variant="h6">
-                  {t('public_rooms')}
-                </Typography>
-              </div>
-              <Carousel>{this.renderCarouselContent(lobby)}</Carousel>
-            </div>
-          );
-        }}
-      </Subscription>
-    );
-  }
-
-  renderCarouselContent(lobby: GetLobby_lobby) {
-    const { t } = this.props;
-
-    if (this.state.loading) {
+  const renderCarouselContent = (lobby: GetLobby_lobby) => {
+    if (loading) {
       return <CircularProgress className={css.carouselCenter} />;
-    } else if (this.state.error) {
+    } else if (error) {
       return (
         <Typography component="h2" variant="body2" className={css.message}>
           {t('error')}
@@ -98,16 +62,16 @@ class LobbyCarousel extends React.Component<Props, State> {
     }
     return (
       <>
-        {this.renderCards(lobby)}
-        {this.hasNewRoomCard() ? <NewRoomCard newRoomModal={this._toggleNewRoomModal} /> : null}
+        {renderCards(lobby)}
+        {hasNewRoomCard() ? <NewRoomCard newRoomModal={_toggleNewRoomModal} /> : null}
       </>
     );
-  }
+  };
 
-  renderCards(lobby: GetLobby_lobby) {
+  const renderCards = (lobby: GetLobby_lobby) => {
     const grouped = getGroupedRoomsDisplay(lobby);
     const result = [];
-    const roomsEntries = orderCurrentGameFirst(grouped, this.props.game?.code);
+    const roomsEntries = orderCurrentGameFirst(grouped, game?.code);
 
     for (const [gameCode, rooms] of roomsEntries) {
       result.push(
@@ -117,23 +81,48 @@ class LobbyCarousel extends React.Component<Props, State> {
       );
     }
     return result;
-  }
-
-  _toggleNewRoomModal = () => {
-    this.setState((prevState) => ({ ...prevState, showNewRoomModal: !prevState.showNewRoomModal }));
   };
 
-  _loadLobby = () => {
+  const _toggleNewRoomModal = () => {
+    setShowNewRoomModal(!showNewRoomModal);
+  };
+
+  const _loadLobby = () => {
     LobbyService.getLobby().then(
       (queryResult: GetLobby) => {
-        this.setState({ loading: false, lobby: queryResult.lobby });
+        setLoading(false);
+        setLobby(queryResult.lobby);
       },
       (error) => {
-        this.setState({ loading: false, error });
+        setLoading(false);
+        setError(error);
       },
     );
   };
-}
+
+  if (!hasNewRoomCard() && (loading || error)) {
+    return null;
+  }
+
+  const currentLobby = subscriptionData?.lobbyMutated || lobby;
+  if (!hasNewRoomCard() && currentLobby && currentLobby.rooms.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className={css.wrapper}>
+      {showNewRoomModal && (
+        <NewRoomModal game={game} handleClickaway={_toggleNewRoomModal} />
+      )}
+      <div className={css.title}>
+        <Typography display="inline" component="h2" variant="h6">
+          {t('public_rooms')}
+        </Typography>
+      </div>
+      <Carousel>{currentLobby ? renderCarouselContent(currentLobby) : null}</Carousel>
+    </div>
+  );
+};
 
 const enhance = withTranslation('LobbyCarousel');
 
